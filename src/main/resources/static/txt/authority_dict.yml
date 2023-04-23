@@ -1,0 +1,32 @@
+- code: 1
+  name: 添加标签
+
+- code: 2
+  name: 删除标签
+
+- code: 3
+  name: 修改标签
+
+- code: 4
+  name: 为图片增加标签
+
+- code: 5
+  name: 删除图片
+
+- code: 6
+  name: 上传图片
+
+- code: 7
+  name: 设置角色权限
+
+- code: 8
+  name: 添加角色
+
+- code: 9
+  name: 删除角色
+
+- code: 10
+  name: 更改用户角色
+
+- code: 11
+  name: 更改角色信息
