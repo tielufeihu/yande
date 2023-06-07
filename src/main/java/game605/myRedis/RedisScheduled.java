@@ -2,7 +2,6 @@ package game605.myRedis;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import game605.Application;
-import game605.bean.ImgTag;
 import game605.bean.Tag;
 import game605.mapper.ImgTagMapper;
 import game605.mapper.TagMapper;
@@ -15,8 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.Pipeline;
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
 import java.util.List;
 
 @Component
@@ -37,26 +38,35 @@ public class RedisScheduled {
 
 
     @PostConstruct // 构造函数之后执行
-    public void init(){
+    public void init() throws IOException {
         System.out.println("-----------  redis 初始化数据  ------------");
-        i = 1;
-
-        Jedis jedis = RedisUtil.getRedisConn();
-        jedis.flushDB();
-        // 初始化 redis 数据
-        // 获取所有Tag信息
-        List<Tag> allTags = tm.selectList(new QueryWrapper<Tag>().select("id"));
-        // 逐个tag进行更新
-        for (Tag t: allTags) {
-            int tagId = t.getId();
-            byte[] byte_tagId = ByteUtil.intToBytes(tagId);
-            List<Integer> imgIds = its.getImgsIdFromTag(tagId);
-            if(imgIds.size() == 0){
-                continue;
+        // 开新线程，不影响系统启动
+        new Thread(() -> {
+            i = 1;
+            Jedis jedis = RedisUtil.getRedisConn();
+            Pipeline pipeline = jedis.pipelined();
+            jedis.flushDB();
+            // 初始化 redis 数据
+            List<Tag> allTags = tm.selectList(new QueryWrapper<Tag>().select("id"));
+            // 逐个tag进行更新
+            for (Tag t: allTags) {
+                int tagId = t.getId();
+                byte[] byte_tagId = ByteUtil.intToBytes(tagId);
+                List<Integer> imgIds = its.getImgsIdFromTag(tagId);
+                if(imgIds.size() == 0){
+                    continue;
+                }
+                pipeline.sadd(byte_tagId,ByteUtil.intListToByteArrArr(imgIds));   // 插入新的条目
             }
-            jedis.sadd(byte_tagId,ByteUtil.intListToByteArrArr(imgIds)); // 插入新的条目
-        }
-        jedis.close();
+            pipeline.sync();  //提交
+            try {
+                pipeline.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            jedis.close();
+            log.info("tag数据初始化完成！");
+        }, "MyThread").start();
     }
 
 
@@ -85,7 +95,7 @@ public class RedisScheduled {
      * 通过定时任务 同步mysql 和 redis 的数据
      *
      */
-    @Scheduled(fixedRate = 9600000)      // 3小时刷新一次 7200000
+    @Scheduled(fixedRate = 12000000)      // 3小时刷新一次 7200000  4 9600000
     public void SynchronizationData() {
         //System.out.println("------------- 定时任务 ------------");
         if (i++ != 1) {

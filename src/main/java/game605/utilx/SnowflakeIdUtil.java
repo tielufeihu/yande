@@ -1,5 +1,7 @@
 package game605.utilx;
 
+
+//  雪花算法
 public class SnowflakeIdUtil {
 
     /**

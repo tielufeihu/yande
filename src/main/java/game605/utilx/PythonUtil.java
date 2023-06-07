@@ -48,8 +48,6 @@ public class PythonUtil {
     }
 
     public int runGetRe(String img_path, String img_name) throws IOException, InterruptedException {
-
-
         //通过原生方式调用，解决python文件引入第三方库的问题
         //第一个参数默认是python,第二个参数python脚本路径，第三和第四个参数是python要接收的参数
         String[] argg = new String[] { "python", "D:\\学习\\java\\springboot\\WaterTestSystem\\src\\main\\resources\\static\\python\\test.py", img_path, img_name};

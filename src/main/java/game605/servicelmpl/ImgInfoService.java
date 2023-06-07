@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -171,7 +172,7 @@ public class ImgInfoService {
 
     //添加img
     @Transactional
-    public int addImgInfo(MultipartFile imgFile, List<Integer> tagIds){
+    public int addImgInfo(MultipartFile imgFile, List<Integer> tagIds) throws Exception {
         byte[] small_img = null;
         int re = 1;
         //获取文件名
@@ -188,26 +189,12 @@ public class ImgInfoService {
         String timeString = sdf.format(day);
         String fileNameAdd = savePath + timeString + fileName;
         // 保存文件
-        try {
-            imgFile.transferTo(new File(fileNameAdd));
-        }catch (Exception e){
-            e.printStackTrace();
-            log.warn("保存文件:{}失败！",fileName);
-            return -1;
-        }
+        imgFile.transferTo(new File(fileNameAdd));
         // 生成缩略图
-        try {
-            //byte[] bytes_img = imgFile.getBytes();
-            byte[] bytes_img = ImgUtil.getImgByte(fileNameAdd);
-            // 生成缩略图
-            small_img = ImgUtil.resizeImg(bytes_img);
-
-        }catch (Exception e){
-            e.printStackTrace();
-            log.warn("文件:{}转换 bytes 失败！",fileName);
-            return -1;
-        }
-
+        //byte[] bytes_img = imgFile.getBytes();
+        byte[] bytes_img = ImgUtil.getImgByte(fileNameAdd);
+        // 生成缩略图
+        small_img = ImgUtil.resizeImg(bytes_img);
         Imginfo imginfo = new Imginfo();
         // 1.设置id（先获取 最新id的 ）
         Imginfo imginfo30 = iim.selectById(30);

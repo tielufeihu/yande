@@ -1,5 +1,6 @@
 package game605;
 
+import game605.servicelmpl.ImgInfoService;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -13,4 +13,5 @@ public class ImgTag
 {
     private int imgId;
     private int tagId;
+
 }

@@ -40,7 +40,7 @@ public class ControllerImg {
 
     //添加一个img
     @RequestMapping("/addImg")
-    public int addImg(@RequestParam MultipartFile img, @RequestParam String tagIds /* 用,分割 */){
+    public int addImg(@RequestParam MultipartFile img, @RequestParam String tagIds /* 用,分割 */) throws Exception {
         if(Objects.equals(tagIds, "")){
             return -1;
         }

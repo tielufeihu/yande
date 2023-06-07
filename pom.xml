@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.to605nb</groupId>
-    <artifactId>tset</artifactId>
+    <artifactId>yande</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>tset</name>
+    <name>yande</name>
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>1.8</java.version>
@@ -48,7 +48,6 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.19</version>
             <scope>runtime</scope>
         </dependency>
 
@@ -90,16 +89,6 @@
             <artifactId>lombok</artifactId>
         </dependency>
 
-        <!-- 数据库驱动 -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
-        <!-- lombok 简化set get toString -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>
         <!-- mybatis-plus -->
         <dependency>
             <groupId>com.baomidou</groupId>
@@ -112,14 +101,6 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>1.2.58</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org</groupId>
-            <artifactId>opencv</artifactId>
-            <version>4.6.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}\src\main\resources\lib.opencv\opencv-460.jar</systemPath>
         </dependency>
 
         <dependency>
@@ -152,15 +133,6 @@
             <version>2.9.0</version>
         </dependency>
 
-
-<!--        <dependency>-->
-<!--            <groupId>org.bytedeco</groupId>-->
-<!--            <artifactId>javacv-platform</artifactId>-->
-<!--            <version>1.5.7</version>-->
-<!--        </dependency>-->
-
-
-
     </dependencies>
 
     <build>
@@ -168,16 +140,16 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>8</source>
-                    <target>8</target>
-                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
+        <finalName>${project.artifactId}</finalName>
     </build>
 
 </project>

@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import game605.bean.RoleAuthority;
 import game605.mapper.RoleAuthorityMapper;
 import org.junit.Test;
-import org.python.antlr.op.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.yaml.snakeyaml.Yaml;
@@ -15,6 +14,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
@@ -30,7 +30,7 @@ public class AuthorityService {
         InputStream input = null;
 
         try {
-            input = new FileInputStream("src/main/resources/static/txt/authority_dict.yml");
+            input = new FileInputStream("src/main/resources/static/txt/authority_dict.yml");  //D:\学习\projects\JavaProjects\yande\target\authority_dict.yml
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -72,6 +72,20 @@ public class AuthorityService {
         if(auth != null)
             re = true;
         return re;
+    }
+
+    public String getAuthName(int authId){
+        return authority_map.get(authId);
+    }
+
+    public int getAuthId(String authName){
+        Set<Integer> set = authority_map.keySet();
+        for (Integer authId: set) {
+            if(authority_map.get(authId).equals(authName)){
+                return authId;
+            }
+        }
+        return -1;
     }
 
     @Test

@@ -6,6 +6,7 @@ import game605.servicelmpl.ImgTagService;
 import game605.servicelmpl.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,6 +30,7 @@ public class ControllerTag {
 
 
     //设置 tag
+    @Transactional   // 事务
     @RequestMapping("/set")
     public int setClass(@RequestParam String tagName, @RequestParam String cnName, @RequestParam String clazz, @RequestParam String message){
         int re = 1;
@@ -40,6 +42,7 @@ public class ControllerTag {
     }
 
     //新增一个Tag
+    @Transactional   // 事务
     @RequestMapping("/add")
     public int addTag(@RequestParam String name, @RequestParam String cnName, @RequestParam String clazz, @RequestParam String message){
         Tag tag = new Tag();
