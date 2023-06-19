@@ -35,16 +35,13 @@ public class UserService {
         User user = searchUser(account);
         if(user == null)
         {
-            // 用户不存在  -2
-            return (long)-2;
+            return (long)-2;  // 用户不存在  -2
         }
         if(user.getPassword().equals(password)){
-            // 用户存在
-            return ts.getTokenAndToRedis(account);
+            return ts.getTokenAndToRedis(account);   // 用户存在  且密码正确返回相应的token
         }else
         {
-            // 用户存在但是密码不正确
-            return (long)-1;
+            return (long)-1;  // 用户存在但是密码不正确
         }
     }
 

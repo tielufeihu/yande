@@ -30,16 +30,14 @@ public class ControllerUser {
     // 登录  成功返回Token  失败返回   用户不存在：-2 ||  密码错误：-1
     @RequestMapping("/login")
     public Long login(@RequestParam int account, @RequestParam String password, HttpServletResponse response) throws IOException {
-        Long cs = us.login(account,password);
-        if(cs.equals((long)-2)){
+        Long token = us.login(account,password);
+        if(token.equals((long)-2)){
             response.sendError(412,"user nonentity！");
         }
-        if(cs.equals((long)-1)){
+        if(token.equals((long)-1)){
             response.sendError(412,"wrong password！");
         }
-//        ServletOutputStream outputStream = response.getOutputStream();
-//        outputStream.print("set info ---");
-        return cs;
+        return token;
     }
 
     @RequestMapping("/getSelfInfo")

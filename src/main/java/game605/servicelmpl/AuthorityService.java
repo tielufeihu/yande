@@ -1,9 +1,11 @@
 package game605.servicelmpl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import game605.bean.Auth;
 import game605.bean.RoleAuthority;
 import game605.mapper.RoleAuthorityMapper;
 import org.junit.Test;
+import org.python.antlr.op.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.yaml.snakeyaml.Yaml;
@@ -48,6 +50,12 @@ public class AuthorityService {
 
     // 为角色x 添加一个权限
     public int roleAddAuthority(int roleId, int authorityId){
+        int rac = ram.selectList(
+                new QueryWrapper<RoleAuthority>().eq("role_id", roleId).eq("authority_id",authorityId)
+        ).size();
+        if(rac >= 1){
+            return 0;
+        }
         return ram.insert(new RoleAuthority(roleId,authorityId));
     }
 
@@ -62,14 +70,24 @@ public class AuthorityService {
         return ram.selectList(new QueryWrapper<RoleAuthority>().eq("role_id",roleId));
     }
 
+    public List<Auth> getAuthsInfo(){
+        List<Auth> relist = new ArrayList<>();
+        Set<Integer> keyset = authority_map.keySet();
+        for (Integer k: keyset) {
+            relist.add(new Auth(k,authority_map.get(k)));
+        }
+        return relist;
+    }
+
+
+
     // 判断角色x 是否有权限y
     public boolean roleIfAuth(int roleId, int authorityId){
         boolean re = false;
         System.out.println("roleIfAuth: roleId:" + roleId + ",authorityId:" + authorityId);
-        RoleAuthority auth = ram.selectOne(new QueryWrapper<RoleAuthority>().eq("role_id",roleId)
-                .eq("authority_id",authorityId));
-
-        if(auth != null)
+        int authcount = ram.selectList(new QueryWrapper<RoleAuthority>().eq("role_id",roleId)
+                .eq("authority_id",authorityId)).size();
+        if(authcount >= 1)
             re = true;
         return re;
     }

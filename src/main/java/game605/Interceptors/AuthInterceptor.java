@@ -81,11 +81,15 @@ public class AuthInterceptor implements HandlerInterceptor {
         int authId = -1;
         switch (url)
         {
-            case "/auth/addAuth":
-            case "/auth/delAuth":
+            case "/auth/add":
+            case "/auth/del":
                 authId = 7;
                 break;
             case "/auth/getRoleAuths":
+            case "/auth/get/list":
+            case "/auth/get/info":
+            case "/auth/get/name":
+            case "/auth/get/id":
                 return true;
         }
         System.out.println("authId:" + authId);

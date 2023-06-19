@@ -6,6 +6,7 @@ import out_log
 
 
 # -*- coding: utf-8 -*-
+
 # coding=utf-8
 
 def getDirAllFile(file_dir) -> list:
@@ -72,3 +73,18 @@ def convertToBinaryData(filepath, filename):
     with open(filepath + "\\" + filename, 'rb') as file:
         blob_data = file.read()
     return blob_data
+
+# print(dealImgName("20999846_20bikini_20erect_nipples_20gabriel_dropout_20kurumizawa_satanichia_mcdowell_20seihekiog_20swimsuits.jpg"))
+#
+# ttt = dealDirToLList("F:\\珈百璃的堕落")
+#
+# for i in ttt[:2]:
+#     print(i[1:])
+
+
+# tttt = getDirAllFile("F:\\珈百璃的堕落")
+#
+# for i in tttt:
+#     print(i)
+
+# img_to_target("F:\\","F:\\yande_imgdb\\","tttt.txt")

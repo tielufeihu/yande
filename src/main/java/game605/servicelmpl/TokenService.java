@@ -31,8 +31,7 @@ public class TokenService {
 
     // 为用户生成一个Token 并保存到redis数据库
     public Long getTokenAndToRedis(int userId){
-        Long token = tokenBuilder.nextId();
-        //System.out.println("saveTime:" + saveTime);
+        Long token = tokenBuilder.nextId();   // 雪花算法util
         rs.saveToken(userId,token,saveTime);  // 默认有效时间为一天
         return token;
     }

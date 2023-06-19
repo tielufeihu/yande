@@ -34,7 +34,8 @@ public class RedisService {
     private List<byte[]> searchListLimit(byte[] key, int page, int sept){
         Jedis jedis = RedisUtil.getRedisConn();
         List<byte[]> re = jedis.lrange(key, (long)(page - 1) * sept,(long)page * sept -1);
-        jedis.expire(key,600);  //重置生命时间
+        Long remainTime = jedis.ttl(key);
+        jedis.expire(key,remainTime.intValue()+600);  //重置生命时间
         jedis.close();
         return re;
     }

@@ -9,7 +9,9 @@ import game605.bean.Tag;
 import game605.mapper.ImgTagMapper;
 import game605.mapper.ImginfoMapper;
 import game605.mapper.TagMapper;
+import game605.myRedis.RedisService;
 import game605.utilx.ImgUtil;
+import org.python.antlr.op.In;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +47,9 @@ public class ImgInfoService {
 
     @Autowired
     TagService ts;
+
+    @Autowired
+    RedisService rs;
 
     // 查询图片 from id
     public Imginfo searchFromId(String id){
@@ -83,6 +88,7 @@ public class ImgInfoService {
         // 方法1 先读取单tag 然后再查询
         String[] tagNames = params.get("tags");
         String[] ps = params.get("page");
+        String[] teen = params.get("teen");
 
         // 安全性验证
         if(tagNames.length < 1 && ps.length != 2)
@@ -92,6 +98,13 @@ public class ImgInfoService {
         }
         int page = Integer.parseInt(ps[0]);
         int sept = Integer.parseInt(ps[1]);
+        boolean teenMode = false;
+        if(teen.length != 0){
+            if(teen[0].equals("true"))
+            {
+                teenMode = true;
+            }
+        }
         List<Integer> imgIdList = its.getImgsIdFromTags(tagNames,page,sept);
         List<Imginfo> res = iim.selectBatchIds(imgIdList);
         return res;
@@ -101,21 +114,34 @@ public class ImgInfoService {
         // 方法1 先读取单tag 然后再查询
         String[] tagNames = params.get("tags");
         String[] ps = params.get("page");
+        String[] teen = params.get("teen");
         int page;
         int sept;
+        boolean teenMode = false;
 
         try{
             page = Integer.parseInt(ps[0]);
             sept = Integer.parseInt(ps[1]);
+            if(teen.length != 0){
+                if(teen[0].equals("true"))
+                {
+                    teenMode = true;
+                }
+            }
         }catch (Exception e){
-            log.error("页面数据不合法！ ps:{}", ps);
+            log.error("页面数据不合法！ ps:{}", (Object) ps);
             return null;
         }
+        List<Integer> imgIdList = null;
         if(tagNames.length == 0 && ps.length == 2)
         {
-            return searchImgId(page,sept);
+            imgIdList = searchImgId(page,sept);
+        }else {
+            imgIdList = its.getImgsIdFromTags(tagNames,page,sept);
         }
-        List<Integer> imgIdList = its.getImgsIdFromTags(tagNames,page,sept);
+        if(teenMode){
+            imgIdList = teenFilter(imgIdList);
+        }
         return imgIdList;
     }
 
@@ -147,7 +173,6 @@ public class ImgInfoService {
         Imginfo t_imginfo = iim.selectOne(queryWrapper);
         String img_path = t_imginfo.getPath();
         int re = 1;
-
         // 1.相关tag-1
         List<Tag> tags = its.getImgTagsFromId(id);
         for (Tag tag:tags) {
@@ -156,10 +181,8 @@ public class ImgInfoService {
             wrapper.setSql("`img_count` = `img_count` - 1");  // mybatis-plus 实现字段的自-
             re*=tm.update(tag,wrapper);
         }
-
         // 2.删除记录
         re *= iim.deleteById(id);
-
         // 3.删除本地路径的文件
         File file = new File(img_path);
         if (file.isFile() && file.exists()) {
@@ -213,13 +236,53 @@ public class ImgInfoService {
         // 插入 ImgTag
         for (int tagId: tagIds) {
             re*=itm.insert(new ImgTag(new30id,tagId));
+            rs.addImgTag(new30id,tagId);
             // tag_count ++
             UpdateWrapper<Tag> wrapper = new UpdateWrapper<Tag>();
             wrapper.eq("id",tagId);
             wrapper.setSql("`img_count` = `img_count` + 1");  // mybatis-plus 实现字段的自增
             re*=tm.update(null,wrapper);
         }
+        // 插入上传者信息 imgTag
+        re*=itm.insert(new ImgTag(new30id,133504));  //我的上传tag id
+        rs.addImgTag(new30id,133504);
+        // tag_count ++
+        UpdateWrapper<Tag> wrapper = new UpdateWrapper<Tag>();
+        wrapper.eq("id",133504);
+        wrapper.setSql("`img_count` = `img_count` + 1");  // mybatis-plus 实现字段的自增
+        re*=tm.update(null,wrapper);
+
         return re;
     }
 
+    public List<Integer> getTeenImg(int page, int step) {
+        QueryWrapper<Imginfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.select("id").orderByDesc("id").last("Limit " + (page-1)*step + ", " + step);
+        List<Imginfo> list = iim.selectList(queryWrapper);
+        List<Integer> rel = new ArrayList<>();
+        for (Imginfo i: list) {
+            rel.add(i.getId());
+        }
+        return teenFilter(rel);
+    }
+
+    public List<Integer> teenFilter(List<Integer> idList){
+        List<Integer> reList = new ArrayList<>();
+        for (int imgId: idList) {
+            // 获取该img的tag list
+            List<Tag> tags = its.getImgTagsFromId(imgId);
+            // 排除 class 为 h的图片
+            boolean flag = false;
+            for(Tag tag: tags){
+                if(tag.getClazz().equals("h")){
+                    flag = true;
+                    break;
+                }
+            }
+            if(flag == false){
+                reList.add(imgId);
+            }
+        }
+        return reList;
+    }
 }

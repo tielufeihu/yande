@@ -31,8 +31,14 @@ public class ControllerSearch {
 
     // 分页查询
     @RequestMapping("/img")
-    public List<Imginfo> searchImg(@RequestParam int page, @RequestParam int sept){
-        return iis.searchImg(page,sept);
+    public List<Integer> searchImg(@RequestParam int page, @RequestParam int sept){
+        return iis.searchImgId(page,sept);
+    }
+
+    // 分页查询 + 青少年模式
+    @RequestMapping("/img/teen")
+    public List<Integer> getImgTeenMode(@RequestParam int page, @RequestParam int sept){
+        return iis.getTeenImg(page,sept);
     }
 
     // 根据 单tag 分页 查询 imginfo
@@ -48,7 +54,8 @@ public class ControllerSearch {
      *  @param params json格式，示例：
      *  {
      *     "tags": ["tag1","tag2","tag3","tag4","tag5","tag6","tag7","tags8"],
-     *     "page":[1,100]
+     *     "page":[1,100],
+     *     "teen": [true or false]
      *  }
      *  @return 符合要求的 imginfo list
      */

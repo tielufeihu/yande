@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.python.antlr.op.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -167,15 +168,14 @@ public class ImgTagService {
     }
 
     // 为图片添加一个tag
+    @Transactional
     public int addTagToImg(int imgId, int tagId){
         // 加入到redis缓存
         rs.addImgTag(imgId,tagId);
-
         int re = 1;
         ImgTag imgTag = new ImgTag();
         imgTag.setImgId(imgId);
         imgTag.setTagId(tagId);
-        // tag_count ++
         UpdateWrapper<Tag> wrapper = new UpdateWrapper<Tag>();
         wrapper.eq("id",tagId);
         wrapper.setSql("`img_count` = `img_count` + 1");  // mybatis-plus 实现字段的自增

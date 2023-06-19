@@ -71,6 +71,4 @@ def download_img(url_t, img_name=None, path='E://lolita_fashion//'):
 
     print(img_name + '已保存')
 
-
-download_img("https://f12.baidu.com/it/u=515941067,202220869&fm=30&app=106&f=JPEG?w=640&h=360&s=1594CF3054895F470E89DDD6030030B6", path='C:\\Users\\sunst\\Desktop\\img')
-
+# download_img('https://i2.hdslb.com/bfs/archive/24c11dbe8171bd625960db4987ff0fc10eee62f4.jpg')

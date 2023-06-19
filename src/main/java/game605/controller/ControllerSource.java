@@ -44,6 +44,12 @@ public class ControllerSource {
         }
     }
 
+    // 获取文件 url
+    @RequestMapping("/getFilePath")
+    public String getImgFileUrl(@RequestParam int id){
+        return iis.getPathFromId(id);
+    }
+
     // 根据id 获取缩略图
     @RequestMapping("/getSmallImg")
     public byte[] getSmallBlobFromImgId(@RequestParam int id){

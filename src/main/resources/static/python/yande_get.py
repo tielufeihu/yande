@@ -1,40 +1,26 @@
 import time
-
 import dateutil.utils
 import img_file_utli
 import out_log
 import pc_util
 import dao_mysql
 from test import create_thumbnails_to_db
+import threading
 
-
-def dealTag(savePath, start=1, end=99999, tagName="null"):
-    for i in range(start, end):
-        print('--------------------------------------------' + str(i) + '--------------------------------------------')
-        out_log.log_info("--------------------------------------------" + str(i) +
-                         "--------------------------------------------")
-        if tagName == "null":
-            target = 'https://yande.re/post?page=' + str(i)
-        else:
-            target = 'https://yande.re/post?page=' + str(i) + '&tags=' + tagName
-
-        sign = -1
-        imgUrl_arr_t = []
-        while sign == -1:
-            try:
-                imgUrl_arr_t = dealPage(target)
-                sign = 1
-            except Exception as e:
-                print(e)
-                print('等待30秒重试')
-
-                time.sleep(30)
-                sign = -1
-            if len(imgUrl_arr_t) == 0:
-                sign = -1
-                print('等待30秒重试')
-                time.sleep(30)
-        dealImgUrlArr(imgUrl_arr_t, savePath)
+class myThread (threading.Thread):   #继承父类threading.Thread
+    def __init__(self, threadID, name, counter,savePath,tagName="null",start=1,end=9999):
+        threading.Thread.__init__(self)
+        self.endPage = end
+        self.startPage = start
+        self.threadID = threadID
+        self.name = name
+        self.counter = counter
+        self.savePath = savePath
+        self.tagName = tagName
+    def run(self):                   #把要执行的代码写到run函数里面 线程在创建后会直接运行run函数
+        print("开始线程" + str(self.threadID))
+        dealTag(savePath=self.savePath,tagName=self.tagName,start=self.startPage,end=self.endPage)
+        print("线程{tid}、TagName（{tagN}）：处理完成！".format(tid=self.threadID,tagN=self.tagName))
 
 
 def dealPage(url):
@@ -56,7 +42,7 @@ def dealPage(url):
     return re_s
 
 
-def dealImgUrlArr(img_arr, savePath):
+def dealImgUrlArr(img_arr,pageNum, savePath):
     for i in range(0, len(img_arr)):
         # print(img_arr[i])
         # download_img 没问题  在这之前 先进行数据库有无判断
@@ -68,17 +54,15 @@ def dealImgUrlArr(img_arr, savePath):
         else:
             return
 
-        if ishave == -1:  # 若无此图片
+        if ishave == -1:   # 若无此图片
             i_url = img_arr[i][0]
             i_name = img_arr[i][1]
             i_id = i_list[0]
-            # if(i_id == "201074266"):
-            #     continue
             i_tag = i_list[1:]
             i_path = savePath + i_name
             print(i_url)
             print(i_name)
-            print(i_id)
+            print("{}, page:{},index:{}".format(i_id,pageNum,i+1))
             print(i_tag)
             print(i_path)
             time.sleep(1)
@@ -122,7 +106,62 @@ def dealImgUrlArr(img_arr, savePath):
             # dao_mysql.set_imginfo_url(savePath + img_arr[i][1], i_list[0])
 
 
-if __name__ == '__main__':
-    # lycoris_recoil
-    # dealTag("D:/yande_imgdb/", start=1, end=100)
-    dealTag("D:/yande_imgdb/", start=1, end=100)
+def dealTag(savePath, tagName="null", start=1, end=99999):
+    # 循环抓取 100 344, tagName="null"
+    for i in range(start, end):
+        print('--------------------------------------------' + str(i) + '--------------------------------------------')
+        out_log.log_info("--------------------------------------------" + str(i) +
+                         "--------------------------------------------")
+        if tagName == "null":
+            target = 'https://yande.re/post?page=' + str(i)
+        else:
+            target = 'https://yande.re/post?page=' + str(i) + '&tags=' + tagName
+
+        sign = -1
+        imgUrl_arr_t = []
+        while sign == -1:
+            try:
+                imgUrl_arr_t = dealPage(target)
+                sign = 1
+            except Exception as e:
+                print(e)
+                print('等待30秒重试')
+                time.sleep(30)
+                sign = -1
+            if len(imgUrl_arr_t) == 0:
+                sign = -1
+                # print('等待30秒重试')
+                # time.sleep(30)
+                break
+        dealImgUrlArr(imgUrl_arr_t, i, savePath)
+
+
+def getNextPage():
+    pass
+
+
+def multithreadingDownLoad(savePath,tagName='null',start=1,offset=100,th_count=5):
+    # 计算 th_count 个线程分别的开始结束位置
+    th_offset = offset // th_count
+    th_start = start
+    th_end = start + th_offset
+
+    threads = []
+    for i in range(th_count):
+        threads.append(myThread(i, "Thread-{}".format(i), i, savePath=savePath,tagName=tagName, start=th_start, end=th_end))
+        th_start += th_offset
+        th_end += th_offset
+
+    for th in threads:
+        th.start()
+
+    for th in threads:
+        th.join()
+
+    print("任务(tagName={},start={},offset={})已完成！".format(tagName,start,offset))
+
+
+
+
+multithreadingDownLoad("H:/yande_imgdb4/",start=1,offset=15,th_count=5)
+

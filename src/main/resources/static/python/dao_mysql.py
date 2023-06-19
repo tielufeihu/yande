@@ -4,45 +4,51 @@ import img_file_utli
 import img_util
 from tqdm import tqdm
 
+from MysqlPool import MysqlPool
+
+mp = MysqlPool()
 
 def get_conn():
-    conn = pymysql.connect(host='127.0.0.1'  # 连接名称，默认127.0.0.1
-                           , user='root'  # 用户名
-                           , passwd='986977'  # 密码
-                           , port=3306  # 端口，默认为3306
-                           , db='yande'  # 数据库名称
-                           , charset='utf8'  # 字符编码
-                           )
-    return conn
+    # conn = pymysql.connect(host='127.0.0.1'  # 连接名称，默认127.0.0.1
+    #                        , user='root'  # 用户名
+    #                        , passwd='986977'  # 密码
+    #                        , port=3306  # 端口，默认为3306
+    #                        , db='yande11'  # 数据库名称
+    #                        , charset='utf8'  # 字符编码
+    #                        )
+    return mp.connect()
 
 
-# 查重插入 INSERT INTO `yande`.`tag` (`name`, `message`, `cn_name`, `class`) SELECT '{name}', '{message}','{cn_name}',
+# 查重插入 INSERT INTO `yande11`.`tag` (`name`, `message`, `cn_name`, `class`) SELECT '{name}', '{message}','{cn_name}',
 # '{clazz}' FROM DUAL WHERE NOT EXISTS(SELECT name FROM imginfo WHERE name = '{name}')
 # 字段 clsaa 改名 clazz   避免保留字冲突
-add_tag_sql = "INSERT INTO `yande`.`tag` (`name`, `message`, `cn_name`, `clazz`, `img_count`) SELECT '{name}', '{message}','{cn_name}'" \
+add_tag_sql = "INSERT INTO `yande11`.`tag` (`name`, `message`, `cn_name`, `clazz`, `img_count`) SELECT '{name}', '{message}','{cn_name}'" \
               ", '{clazz}', '{img_count}' FROM DUAL WHERE NOT EXISTS(SELECT name FROM tag WHERE name = '{name}');"
-add_imginfo_sql = "INSERT INTO `yande`.`imginfo` (`id`, `path`) SELECT '{tid}', '{path}' FROM DUAL WHERE NOT EXISTS(" \
+add_imginfo_sql = "INSERT INTO `yande11`.`imginfo` (`id`, `path`) SELECT '{tid}', '{path}' FROM DUAL WHERE NOT EXISTS(" \
                   "SELECT id FROM imginfo WHERE id = '{tid}'); "
-add_img_tag_sql = "INSERT INTO `yande`.`img_tag` (`img_id`, `tag_id`) VALUES ('{}', '{}');"
-tag_name_to_tag_id_sql = "SELECT `id` FROM `yande`.`tag` WHERE `name` = '{}';"
-select_imginfo_sql = "SELECT id FROM `yande`.`imginfo` WHERE `id` = '{}';"
-insert_blob_img_sql = """ UPDATE `yande`.imginfo SET `img` = %s WHERE `id` = %s"""
-select_all_imginfo_sql = "SELECT `id`,`path`  FROM  `yande`.`imginfo`;"
-get_img_blob_sql = "SELECT img FROM `yande`.`imginfo` WHERE `id` = '{}';"
-select_all_imginfo_path_sql = "SELECT `id`,`path`  FROM  `yande`.`imginfo`;"
-del_imginfo_sql = "DELETE FROM `yande`.`imginfo` WHERE `id` = '{}'; "
-del_img_tags_sql = "DELETE FROM `yande`.`img_tag` WHERE `img_id` = '{}'"
-get_tag_img_count_sql = "SELECT COUNT(*) FROM `yande`.`img_tag` WHERE `tag_id` = '{}'"
-get_all_tag_sql = "SELECT * FROM `yande`.`tag`"
-set_tag_count_sql = "UPDATE `yande`.`tag` SET `img_count` = '{}' WHERE `id` = '{}'"
-tag_add1_sql = "UPDATE `yande`.`tag` SET `img_count` = `img_count` + 1 WHERE `id` = '{}'"
-set_imginfo_url_sql = "UPDATE `yande`.`imginfo` SET `path` = '{}' WHERE `id` = '{}'"
-select_all_imgtag_sql = "SELECT * FROM `yande`.`img_tag`"
-tag_id_to_tag_name_sql = "SELECT NAME FROM `yande`.`tag` WHERE `id` = '{}'"
-set_imgtag_tagname_sql = "UPDATE `yande`.`img_tag` SET `tag_name` = '{}' WHERE `img_id` = '{}' AND `tag_id` = '{}'"
-get_imgPath_from_imgId_sql = "SELECT PATH FROM `yande`.`imginfo` WHERE `id` = '{}'"
 
-# UPDATE `yande`.`tag` SET `message` = '或许是jk吧' WHERE `id` = '26';
+add_imginfo_sql2 = "INSERT INTO `yande11`.`imginfo` (`id`,`path`) VALUES('{tid}', '{path}') ON DUPLICATE KEY UPDATE `id`='{tid}',`path`='{path}';"
+
+add_img_tag_sql = "INSERT INTO `yande11`.`img_tag` (`img_id`, `tag_id`) VALUES ('{}', '{}');"
+tag_name_to_tag_id_sql = "SELECT `id` FROM `yande11`.`tag` WHERE `name` = '{}';"
+select_imginfo_sql = "SELECT id FROM `yande11`.`imginfo` WHERE `id` = '{}';"
+insert_blob_img_sql = """ UPDATE `yande11`.imginfo SET `img` = %s WHERE `id` = %s"""
+select_all_imginfo_sql = "SELECT `id`,`path`  FROM  `yande11`.`imginfo`;"
+get_img_blob_sql = "SELECT img FROM `yande11`.`imginfo` WHERE `id` = '{}';"
+select_all_imginfo_path_sql = "SELECT `id`,`path`  FROM  `yande11`.`imginfo`;"
+del_imginfo_sql = "DELETE FROM `yande11`.`imginfo` WHERE `id` = '{}'; "
+del_img_tags_sql = "DELETE FROM `yande11`.`img_tag` WHERE `img_id` = '{}'"
+get_tag_img_count_sql = "SELECT COUNT(*) FROM `yande11`.`img_tag` WHERE `tag_id` = '{}'"
+get_all_tag_sql = "SELECT * FROM `yande11`.`tag`"
+set_tag_count_sql = "UPDATE `yande11`.`tag` SET `img_count` = '{}' WHERE `id` = '{}'"
+tag_add1_sql = "UPDATE `yande11`.`tag` SET `img_count` = `img_count` + 1 WHERE `id` = '{}'"
+set_imginfo_url_sql = "UPDATE `yande11`.`imginfo` SET `path` = '{}' WHERE `id` = '{}'"
+select_all_imgtag_sql = "SELECT * FROM `yande11`.`img_tag`"
+tag_id_to_tag_name_sql = "SELECT NAME FROM `yande11`.`tag` WHERE `id` = '{}'"
+set_imgtag_tagname_sql = "UPDATE `yande11`.`img_tag` SET `tag_name` = '{}' WHERE `img_id` = '{}' AND `tag_id` = '{}'"
+get_imgPath_from_imgId_sql = "SELECT PATH FROM `yande11`.`imginfo` WHERE `id` = '{}'"
+
+# UPDATE `yande11`.`tag` SET `message` = '或许是jk吧' WHERE `id` = '26';
 
 def insert_img_blob(img_blog, imginfo_id):
     conn = get_conn()
@@ -99,7 +105,7 @@ def add_tag(name, message, cn_name, clazz, count):
 
 
 def add_imginfo(tid, path):
-    sql = add_imginfo_sql.format(tid=tid, path=path)
+    sql = add_imginfo_sql2.format(tid=tid, path=path)
     # print(sql)
     re = execute_sql(sql)
     # print("add_imginfo" + str(re))
@@ -167,7 +173,7 @@ def del_imginfo(tid):
 
 
 def del_img_tags(tid):
-    sql = "DELETE FROM `yande`.`img_tag` WHERE `img_id` = '{}'".format(tid)
+    sql = "DELETE FROM `yande11`.`img_tag` WHERE `img_id` = '{}'".format(tid)
     re = execute_sql(sql, mode="delete")
     return re
 
@@ -209,5 +215,9 @@ def set_tag_count(tag_id, tag_count):
 
 def set_imginfo_url(new_url, img_id):
     sql = set_imginfo_url_sql.format(new_url, img_id)
-    re = execute_sql(sql, mode="delete")
+    re = execute_sql(sql, mode="update")
     return re
+
+
+# i = set_imginfo_url("asdjskl", 30)
+# print(i)

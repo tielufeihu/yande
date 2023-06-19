@@ -30,9 +30,12 @@ def resize(img, area=160000):
 def img_to_blog(img):
     byte = cv2.imencode('.jpg', img)[1]
     imgstring = np.array(byte).tobytes()
-    # print(imgstring) 显示 cv2.imshow("new_img", new_img) save_img(new_img, "good.jpg") cv2.waitKey(0) img =
-    # cv2.imread(
-    # "F:\\201023117_20anus_20censored_20cum_20ken__28coffee_michikusa_29_20naked_20nipples_20pussy_20pussy_juice_20reiuji_utsuho_20thighhighs_20touhou.jpg",-1)
+    # print(imgstring)
+    # 显示
+    # cv2.imshow("new_img", new_img)
+    # save_img(new_img, "good.jpg")
+    # cv2.waitKey(0)
+    # img = cv2.imread("F:\\201023117_20anus_20censored_20cum_20ken__28coffee_michikusa_29_20naked_20nipples_20pussy_20pussy_juice_20reiuji_utsuho_20thighhighs_20touhou.jpg",-1)
     return imgstring
 
 
