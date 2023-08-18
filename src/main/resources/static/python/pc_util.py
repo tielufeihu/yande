@@ -62,7 +62,6 @@ def download_img(url_t, img_name=None, path='E://lolita_fashion//'):
             print(e)
             print('等待30秒重试')
             time.sleep(30)
-
     time.sleep(0.5)
     # 创建并打开abc.jpg文件，通过r.content写入url上的图片
     # 这和 try ... finally是一样的，但是代码更佳简洁，并且不必调用f.close()方法

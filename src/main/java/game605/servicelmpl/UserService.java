@@ -1,19 +1,32 @@
 package game605.servicelmpl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import game605.Application;
+import game605.bean.Auth;
+import game605.bean.LoginUser;
+import game605.bean.RoleAuthority;
 import game605.bean.User;
+import game605.bean.web.ResponseResult;
 import game605.mapper.UserMapper;
 import game605.myRedis.RedisService;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
 
 @Service
 public class UserService {
@@ -29,6 +42,51 @@ public class UserService {
     @Autowired
     AuthorityService as;
 
+    @Autowired
+    RedisService rs;
+
+    @Autowired
+    AuthenticationManager authenticationManager;
+    public UserDetails loadUserByUsername(String username) throws RuntimeException {
+        //根据用户名查询用户信息
+        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(User::getName,username);
+        User user = um.selectOne(wrapper);
+        //如果查询不到数据就通过抛出异常来给出提示
+        if(Objects.isNull(user)){
+            throw new RuntimeException("用户名或密码错误");
+        }
+        //TODO 根据用户查询权限信息 添加到LoginUser中
+        List<RoleAuthority> auths = as.getRoleAuths(user.getRoleId());
+        List<String> strings = new ArrayList<>();
+        for (RoleAuthority item: auths) {
+            strings.add(item.toString());
+        }
+
+        //封装成UserDetails对象返回
+        return new LoginUser(user,strings);
+    }
+
+
+//    public ResponseResult login(User user) {
+//        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user.getName(),user.getPassword());
+//        Authentication authenticate = authenticationManager.authenticate(authenticationToken);
+//        if(Objects.isNull(authenticate)){
+//            throw new RuntimeException("用户名或密码错误");
+//        }
+//        //使用userid生成token
+//        LoginUser loginUser = (LoginUser) authenticate.getPrincipal();
+//        String userId = String.valueOf(loginUser.getUser().getAccount());
+//        String jwt = JwtUtil.createJWT(userId);
+//        //authenticate存入redis
+//        //  原先 redis代码 redisCache.setCacheObject("login:"+userId,loginUser);
+//        // 使用 jedis 代码
+//        rs.saveCache("login:"+userId,loginUser);
+//        //把token响应给前端
+//        HashMap<String,String> map = new HashMap<>();
+//        map.put("token",jwt);
+//        return new ResponseResult(200,"登陆成功",map);
+//    }
     // 登录
     public Long login(int account, String password){
         // 检测 账号密码 是否正确

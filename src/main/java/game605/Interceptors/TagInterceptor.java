@@ -82,15 +82,15 @@ public class TagInterceptor implements HandlerInterceptor {
         int authId = -1;
         switch (url)
         {
-            case "/tag/set":
+            case "/yandeApi/tag/set":
                 authId = 3;
                 break;
-            case "/tag/add":
+            case "/yandeApi/tag/add":
                 authId = 1;
                 break;
         }
         if(authId == -1)
-            return false;
+            return true;
         return us.userIfAuth(userid,authId);
     }
 }

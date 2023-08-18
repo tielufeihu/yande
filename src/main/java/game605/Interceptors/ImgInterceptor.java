@@ -91,13 +91,13 @@ public class ImgInterceptor implements HandlerInterceptor {
         int authId = -1;
         switch (url)
         {
-            case "/img/delImgInfo":
+            case "/yandeApi/img/delImgInfo":
                 authId = 5;
                 break;
-            case "/img/addImg":
+            case "/yandeApi/img/addImg":
                 authId = 6;
                 break;
-            case "/img/addTag":
+            case "/yandeApi/img/addTag":
                 authId = 4;
                 break;
         }

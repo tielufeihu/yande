@@ -37,7 +37,7 @@ public class RoleInterceptor implements HandlerInterceptor {
         log.info("request请求地址path[{}] uri[{}]", request.getServletPath(),request.getRequestURI());
         String urlStr = request.getRequestURI();
 
-        if(urlStr.equals("/role/list")  || urlStr.equals("/role/search") || urlStr.equals("/role/getInfo"))
+        if(urlStr.equals("/yandeApi/role/list")  || urlStr.equals("/yandeApi/role/search") || urlStr.equals("/yandeApi/role/getInfo"))
             return true;
 
         String token = request.getHeader("User-Token");
@@ -84,17 +84,17 @@ public class RoleInterceptor implements HandlerInterceptor {
         int authId = -1;
         switch (url)
         {
-            case "/role/add":
+            case "/yandeApi/role/add":
                 authId = 8;
                 break;
-            case "/role/del":
+            case "/yandeApi/role/del":
                 authId = 9;
                 break;
-            case "/role/update":
+            case "/yandeApi/role/update":
                 authId = 11;
                 break;
-            case "/role/list":
-            case "/role/search":
+            case "/yandeApi/role/list":
+            case "/yandeApi/role/search":
                 return true;
         }
         System.out.println("authId:" + authId);

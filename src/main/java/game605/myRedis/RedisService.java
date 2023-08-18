@@ -1,6 +1,7 @@
 package game605.myRedis;
 
 import game605.Application;
+import game605.bean.LoginUser;
 import game605.utilx.ByteUtil;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -146,6 +147,14 @@ public class RedisService {
 
         jedis.close();
         return 0;
+    }
+
+    public byte[] getObjectByte(byte[] redisKey) {
+        byte[] bytes = null;
+        try (Jedis jedis = RedisUtil.getRedisConn()){
+            bytes = jedis.get(redisKey);
+        }
+        return bytes;
     }
 
 //    @Test

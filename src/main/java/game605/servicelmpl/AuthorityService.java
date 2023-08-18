@@ -5,13 +5,10 @@ import game605.bean.Auth;
 import game605.bean.RoleAuthority;
 import game605.mapper.RoleAuthorityMapper;
 import org.junit.Test;
-import org.python.antlr.op.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.yaml.snakeyaml.Yaml;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -30,20 +27,18 @@ public class AuthorityService {
     //静态获取权限字典
     static {
         InputStream input = null;
-
-        try {
-            input = new FileInputStream("src/main/resources/static/txt/authority_dict.yml");  //D:\学习\projects\JavaProjects\yande\target\authority_dict.yml
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        // ok jar下运行良好
+        input = AuthorityService.class.getClassLoader().getResourceAsStream("static/txt/authority_dict.yml");
+        //input = new FileInputStream("src/main/resources/static/txt/authority_dict.yml");  //D:\学习\projects\JavaProjects\yande\target\authority_dict.yml
         //读yaml
         Yaml yaml = new Yaml();
         ArrayList authority_dict = yaml.load(input);
-        //System.out.println(city_list.toString());
+        System.out.println(authority_dict.toString());
         authority_map = new ConcurrentHashMap<Integer, String>();
         for (Object lmp:authority_dict) {
             LinkedHashMap ttt = (LinkedHashMap)lmp;
             Object[] ddd = ttt.values().toArray();
+            //System.out.println(ttt);
             authority_map.put((Integer) ddd[0], (String) ddd[1]);
         }
     }

@@ -35,7 +35,7 @@ public class UserInterceptor implements HandlerInterceptor {
             return true;
         }
         String urlStr = request.getRequestURI();
-        if(urlStr.equals("/user/login")  || urlStr.equals("/user/getSelfInfo"))
+        if(urlStr.equals("/yandeApi/user/login")  || urlStr.equals("/yandeApi/user/getSelfInfo"))
             return true;
         String token = request.getHeader("User-Token");
         System.out.println("token:" + token);
@@ -81,10 +81,10 @@ public class UserInterceptor implements HandlerInterceptor {
         int authId = -1;
         switch (url)
         {
-            case "/user/login":
-            case "/user/register":
-            case "/user/isLogin":
-            case "/user/refreshTokenTime":
+            case "/yandeApi/user/login":
+            case "/yandeApi/user/register":
+            case "/yandeApi/user/isLogin":
+            case "/yandeApi/user/refreshTokenTime":
                 return true;
         }
         System.out.println("authId:" + authId);

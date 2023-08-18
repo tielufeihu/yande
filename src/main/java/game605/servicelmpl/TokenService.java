@@ -1,16 +1,12 @@
 package game605.servicelmpl;
 
 import game605.myRedis.RedisService;
-import game605.myRedis.RedisUtil;
 import game605.utilx.ByteUtil;
 import game605.utilx.SnowflakeIdUtil;
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
-import redis.clients.jedis.Jedis;
 
 @Service
 @PropertySource("classpath:application.yml")
@@ -32,7 +28,7 @@ public class TokenService {
     // 为用户生成一个Token 并保存到redis数据库
     public Long getTokenAndToRedis(int userId){
         Long token = tokenBuilder.nextId();   // 雪花算法util
-        rs.saveToken(userId,token,saveTime);  // 默认有效时间为一天
+        rs.saveToken(userId,token,saveTime);  // 默认有效时间为14天
         return token;
     }
 

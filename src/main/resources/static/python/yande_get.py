@@ -7,8 +7,9 @@ import dao_mysql
 from test import create_thumbnails_to_db
 import threading
 
-class myThread (threading.Thread):   #继承父类threading.Thread
-    def __init__(self, threadID, name, counter,savePath,tagName="null",start=1,end=9999):
+
+class myThread(threading.Thread):  # 继承父类threading.Thread
+    def __init__(self, threadID, name, counter, savePath, tagName="null", start=1, end=9999):
         threading.Thread.__init__(self)
         self.endPage = end
         self.startPage = start
@@ -17,10 +18,11 @@ class myThread (threading.Thread):   #继承父类threading.Thread
         self.counter = counter
         self.savePath = savePath
         self.tagName = tagName
-    def run(self):                   #把要执行的代码写到run函数里面 线程在创建后会直接运行run函数
+
+    def run(self):  # 把要执行的代码写到run函数里面 线程在创建后会直接运行run函数
         print("开始线程" + str(self.threadID))
-        dealTag(savePath=self.savePath,tagName=self.tagName,start=self.startPage,end=self.endPage)
-        print("线程{tid}、TagName（{tagN}）：处理完成！".format(tid=self.threadID,tagN=self.tagName))
+        dealTag(savePath=self.savePath, tagName=self.tagName, start=self.startPage, end=self.endPage)
+        print("线程{tid}、TagName（{tagN}）：处理完成！".format(tid=self.threadID, tagN=self.tagName))
 
 
 def dealPage(url):
@@ -42,7 +44,7 @@ def dealPage(url):
     return re_s
 
 
-def dealImgUrlArr(img_arr,pageNum, savePath):
+def dealImgUrlArr(img_arr, pageNum, savePath):
     for i in range(0, len(img_arr)):
         # print(img_arr[i])
         # download_img 没问题  在这之前 先进行数据库有无判断
@@ -54,7 +56,7 @@ def dealImgUrlArr(img_arr,pageNum, savePath):
         else:
             return
 
-        if ishave == -1:   # 若无此图片
+        if ishave == -1:  # 若无此图片
             i_url = img_arr[i][0]
             i_name = img_arr[i][1]
             i_id = i_list[0]
@@ -62,7 +64,7 @@ def dealImgUrlArr(img_arr,pageNum, savePath):
             i_path = savePath + i_name
             print(i_url)
             print(i_name)
-            print("{}, page:{},index:{}".format(i_id,pageNum,i+1))
+            print("{}, page:{},index:{}".format(i_id, pageNum, i + 1))
             print(i_tag)
             print(i_path)
             time.sleep(1)
@@ -140,7 +142,7 @@ def getNextPage():
     pass
 
 
-def multithreadingDownLoad(savePath,tagName='null',start=1,offset=100,th_count=5):
+def multithreadingDownLoad(savePath, tagName='null', start=1, offset=100, th_count=5):
     # 计算 th_count 个线程分别的开始结束位置
     th_offset = offset // th_count
     th_start = start
@@ -148,7 +150,8 @@ def multithreadingDownLoad(savePath,tagName='null',start=1,offset=100,th_count=5
 
     threads = []
     for i in range(th_count):
-        threads.append(myThread(i, "Thread-{}".format(i), i, savePath=savePath,tagName=tagName, start=th_start, end=th_end))
+        threads.append(
+            myThread(i, "Thread-{}".format(i), i, savePath=savePath, tagName=tagName, start=th_start, end=th_end))
         th_start += th_offset
         th_end += th_offset
 
@@ -158,10 +161,11 @@ def multithreadingDownLoad(savePath,tagName='null',start=1,offset=100,th_count=5
     for th in threads:
         th.join()
 
-    print("任务(tagName={},start={},offset={})已完成！".format(tagName,start,offset))
+    print("任务(tagName={},start={},offset={})已完成！".format(tagName, start, offset))
 
 
+#  multithreadingDownLoad("H:/yande_imgdb4/", start=1, offset=15, th_count=3)
+#  multithreadingDownLoad("H:/yande_imgdb4/", start=15, offset=5000, th_count=5)
 
-
-multithreadingDownLoad("H:/yande_imgdb4/",start=1,offset=15,th_count=5)
-
+multithreadingDownLoad("H:/yande_imgdb6/", start=1, offset=100, th_count=5)
+# multithreadingDownLoad("H:/yande_imgdb5/", start=5015, offset=5000, th_count=5)

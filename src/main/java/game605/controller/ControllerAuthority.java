@@ -42,7 +42,7 @@ public class ControllerAuthority {
         List<Integer> res = new ArrayList<>();
         List<RoleAuthority> rrr = as.getRoleAuths(roleId);
         for (RoleAuthority r: rrr) {
-            res.add(r.authorityId);
+            res.add(r.getAuthorityId());
         }
 
         return res;

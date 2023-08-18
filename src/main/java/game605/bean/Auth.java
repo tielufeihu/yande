@@ -5,8 +5,8 @@ import lombok.Data;
 @Data
 public class Auth {
 
-    int id;
-    String name;
+    private int id;
+    private String name;
 
     public Auth(int id, String name) {
         this.id = id;
