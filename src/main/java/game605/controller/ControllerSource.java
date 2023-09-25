@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Controller
@@ -34,7 +35,7 @@ public class ControllerSource {
 
     //根据id 返回该图片的blob数据图片 （大图）
     @RequestMapping("/getBlobFromId")
-    public byte[] getBlobFromImgId(@RequestParam int id){
+    public byte[] getBlobFromImgId(@RequestParam int id, HttpServletResponse response){
         String path = iis.getPathFromId(id);
         try {
             return ImgUtil.getImgByte(path);

@@ -44,9 +44,15 @@ public class ControllerSearch {
     // 根据 单tag 分页 查询 imginfo
     @RequestMapping("/imgFromTag")
     public List<Imginfo> searchImgFromTag(@RequestParam String tagName, @RequestParam int page, @RequestParam int sept){
+
         return iis.searchFromTag(tagName,page,sept);
     }
 
+    // 根据 单tag 分页 查询 imginfo  青少年模式
+    @RequestMapping("/imgFromTagTeen")
+    public List<Imginfo> searchImgFromTagTeen(@RequestParam String tagName, @RequestParam int page, @RequestParam int sept){
+        return iis.searchFromTagTeen(tagName,page,sept);
+    }
 
     /**
      *

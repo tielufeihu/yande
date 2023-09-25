@@ -83,6 +83,14 @@ public class ImgInfoService {
         return res;
     }
 
+    // 查询图片 from 单个tag  teen   success
+    public List<Imginfo> searchFromTagTeen(String tagName,int page,int step){
+        int tagId = ts.getIdFromName(tagName);
+        List<Integer> imgIdList = its.getImgsIdFromTag(tagId, page, step);
+        List<Imginfo> res = iim.selectBatchIds(teenFilter(imgIdList));
+        return res;
+    }
+
     // 查询图片 for 多个tag  ok
     public List<Imginfo> searchFromTags(Map<String,String[]> params){
         // 方法1 先读取单tag 然后再查询
@@ -279,7 +287,7 @@ public class ImgInfoService {
                     break;
                 }
             }
-            if(flag == false){
+            if(!flag){
                 reList.add(imgId);
             }
         }

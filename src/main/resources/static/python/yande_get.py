@@ -167,5 +167,5 @@ def multithreadingDownLoad(savePath, tagName='null', start=1, offset=100, th_cou
 #  multithreadingDownLoad("H:/yande_imgdb4/", start=1, offset=15, th_count=3)
 #  multithreadingDownLoad("H:/yande_imgdb4/", start=15, offset=5000, th_count=5)
 
-multithreadingDownLoad("H:/yande_imgdb6/", start=1, offset=100, th_count=5)
+multithreadingDownLoad("H:/yande_imgdb6/", start=1, offset=10, th_count=5)
 # multithreadingDownLoad("H:/yande_imgdb5/", start=5015, offset=5000, th_count=5)

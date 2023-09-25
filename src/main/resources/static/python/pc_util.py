@@ -16,6 +16,8 @@ def print_html(target):
     print(html)
 
 
+
+
 def reBfObj(target):
     # req.add_header('user-agent', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko)
     # Chrome/65.0.3325.181 Safari/537.36')
@@ -67,6 +69,7 @@ def download_img(url_t, img_name=None, path='E://lolita_fashion//'):
     # 这和 try ... finally是一样的，但是代码更佳简洁，并且不必调用f.close()方法
     with open(path + img_name, 'wb') as file:
         file.write(req.content)
+
 
     print(img_name + '已保存')
 
