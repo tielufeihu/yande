@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import game605.bean.Auth;
 import game605.bean.RoleAuthority;
 import game605.mapper.RoleAuthorityMapper;
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.yaml.snakeyaml.Yaml;
@@ -33,12 +32,10 @@ public class AuthorityService {
         //读yaml
         Yaml yaml = new Yaml();
         ArrayList authority_dict = yaml.load(input);
-        System.out.println(authority_dict.toString());
         authority_map = new ConcurrentHashMap<Integer, String>();
         for (Object lmp:authority_dict) {
             LinkedHashMap ttt = (LinkedHashMap)lmp;
             Object[] ddd = ttt.values().toArray();
-            //System.out.println(ttt);
             authority_map.put((Integer) ddd[0], (String) ddd[1]);
         }
     }
