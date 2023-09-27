@@ -19,6 +19,7 @@ import redis.clients.jedis.Pipeline;
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.locks.StampedLock;
 
 @Component
 public class RedisScheduled {
@@ -45,19 +46,25 @@ public class RedisScheduled {
             i = 1;
             Jedis jedis = RedisUtil.getRedisConn();
             Pipeline pipeline = jedis.pipelined();
+            StampedLock pipelineLock = new StampedLock();
             jedis.flushDB();
             // 初始化 redis 数据
             List<Tag> allTags = tm.selectList(new QueryWrapper<Tag>().select("id"));
-            // 逐个tag进行更新
-            for (Tag t: allTags) {
+            // 逐个tag进行更新 + 并行流加速
+            allTags.parallelStream().forEach(t->{
                 int tagId = t.getId();
                 byte[] byte_tagId = ByteUtil.intToBytes(tagId);
                 List<Integer> imgIds = its.getImgsIdFromTag(tagId);
-                if(imgIds.size() == 0){
-                    continue;
+                if(imgIds.size() > 0){
+                    // 加锁解决并发问题
+                    long stamp = pipelineLock.writeLock();
+                    try {
+                        pipeline.sadd(byte_tagId,ByteUtil.intListToByteArrArr(imgIds));   // 插入新的条目
+                    }finally {
+                        pipelineLock.unlockWrite(stamp);
+                    }
                 }
-                pipeline.sadd(byte_tagId,ByteUtil.intListToByteArrArr(imgIds));   // 插入新的条目
-            }
+            });
             pipeline.sync();  //提交
             try {
                 pipeline.close();
