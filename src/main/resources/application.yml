@@ -9,6 +9,9 @@ spring:
     username: root
     password: 986977
     driver-class-name: com.mysql.cj.jdbc.Driver
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/myDB
 
 thymeleaf:
   prefix: classpath:/templates/  #prefix：指定模板所在的目录
