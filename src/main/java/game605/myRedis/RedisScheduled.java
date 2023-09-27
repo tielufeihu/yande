@@ -40,7 +40,7 @@ public class RedisScheduled {
 
     @PostConstruct // 构造函数之后执行
     public void init() throws IOException {
-        System.out.println("-----------  redis 初始化数据  ------------");
+        log.info("-----------  redis 初始化数据  ------------");
         // 开新线程，不影响系统启动
         new Thread(() -> {
             i = 1;
@@ -92,7 +92,6 @@ public class RedisScheduled {
             byte[][] toRedis = ByteUtil.intListToByteArrArr(imgIds);
             jedis.del(byte_tagId);          // 删除旧的条目
             jedis.sadd(byte_tagId,toRedis); // 插入新的条目
-            //System.out.println("更新tag："+tagId);
         }
         jedis.close();
     }

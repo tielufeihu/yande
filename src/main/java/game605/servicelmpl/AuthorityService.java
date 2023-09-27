@@ -101,9 +101,4 @@ public class AuthorityService {
         return -1;
     }
 
-    @Test
-    public void test(){
-        System.out.println(authority_map);
-    }
-
 }

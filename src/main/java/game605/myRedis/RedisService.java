@@ -1,9 +1,7 @@
 package game605.myRedis;
 
 import game605.Application;
-import game605.bean.LoginUser;
 import game605.utilx.ByteUtil;
-import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -156,53 +154,5 @@ public class RedisService {
         }
         return bytes;
     }
-
-//    @Test
-//    public void test01(){
-//        Jedis jedis = RedisUtil.getRedisConn();
-//        List<Integer> ss = new ArrayList<Integer>();
-//        ss.add(37);
-//        ss.add(51);
-//        ss.add(20);
-//        ss.add(24);
-//        List<Integer> idList = getImgsIdFromTags(ss, 0 , 100);
-//        idList.sort(Comparator.naturalOrder());
-//        byte[] toRedisKey = "37,51,20,24,".getBytes();
-//        byte[][] toRedis = ByteUtil.intListToByteArrArr(idList);
-//
-//        jedis.lpush(toRedisKey, toRedis);
-//        jedis.expire(toRedisKey,600);	  //设置键为key的过期时间为i秒
-//
-//        System.out.println(idList);
-//        System.out.println(idList.size());
-//        jedis.close();
-//    }
-//
-//    @Test
-//    public void test02(){
-//        Jedis jedis = RedisUtil.getRedisConn();
-//        byte[] toRedisKey = ("37"+"c").getBytes();
-//        //byte[] toRedisKey = "20,24,37,51,".getBytes();
-//        Long s = jedis.ttl(toRedisKey);
-//        System.out.println(s);
-//        boolean is_live = jedis.exists(toRedisKey);
-//        System.out.println(is_live);
-//        List<byte[]> re = jedis.lrange(toRedisKey,0,100);
-//        System.out.println(ByteUtil.intByteListToList(re));
-//        //System.out.println(re.size());
-//        jedis.close();
-//    }
-//
-//    @Test
-//    public void test03(){
-//        List<Integer> ss = new ArrayList<Integer>();
-//        ss.add(37);
-//        ss.add(51);
-//        ss.add(20);
-//        ss.add(24);
-//        List<Integer> re = getImgsIdFromTag(101,1,400);
-//        System.out.println(re.size());
-//        System.out.println(re);
-//    }
 
 }

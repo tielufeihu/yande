@@ -1,7 +1,5 @@
 package game605.utilx;
 
-import org.python.modules.math;
-
 import java.awt.image.BufferedImage;
 import java.io.*;
 
