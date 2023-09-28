@@ -24,7 +24,7 @@ public class Q112 {
 
     public boolean flag = false;
 
-    // dfs 一点不会
+
     public boolean hasPathSum(TreeNode root, int targetSum) {
         dfs(root, root.val, targetSum);
         return flag;
@@ -51,7 +51,8 @@ public class Q112 {
         Queue<TreeNodeDetail> queue = new LinkedList<>();
         queue.add(new TreeNodeDetail(root, root.val));
         while (!queue.isEmpty()){
-            TreeNodeDetail node = queue.poll();
+            TreeNodeDetail node = queue.poll();   // pop
+
             if(node.treeNode.left == null && node.treeNode.right==null){  // 是叶子
                 if(targetSum == node.sum)
                     return true;
