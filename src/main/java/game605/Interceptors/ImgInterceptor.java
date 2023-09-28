@@ -48,7 +48,6 @@ public class ImgInterceptor implements HandlerInterceptor {
         String urlStr = request.getRequestURI();
 
         String token = request.getHeader("User-Token");
-        System.out.println("token:" + token);
         if(token == null){
             log.info("token 请先登录"+ urlStr);
             response.sendError(412,"请先登录！");
@@ -65,15 +64,17 @@ public class ImgInterceptor implements HandlerInterceptor {
         }
         // 获取该用户id
         int userId = getUserId(l_token);
-        System.out.println("用户id：" + userId);
+        log.info("用户Token: {}", token);
         if(userId == -1){
-            log.info(" token无效"+ urlStr);
+            log.info("token无效, 访问url:[{}]",urlStr);
             response.sendError(412,"token无效！");
+            return false;
         }
+        log.info("用户id: {}", userId);
         // 权限检测
         if(!checkAuth(userId, urlStr))
         {
-            log.info(" 权限不足或请求格式错误"+ urlStr);
+            log.info("权限不足或请求格式错误,访问 url[{}]", urlStr);
             response.sendError(412,"权限不足或请求格式错误！");
             return false;
         }

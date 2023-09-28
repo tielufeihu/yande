@@ -29,6 +29,7 @@ public class RoleInterceptor implements HandlerInterceptor {
     private static Logger log = LoggerFactory.getLogger(Application.class);
 
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception{
+
         if (request.getMethod().equals("OPTIONS")){
             //response.setStatus(response.SC_OK);
             return true;
@@ -37,11 +38,7 @@ public class RoleInterceptor implements HandlerInterceptor {
         log.info("request请求地址path[{}] uri[{}]", request.getServletPath(),request.getRequestURI());
         String urlStr = request.getRequestURI();
 
-        if(urlStr.equals("/yandeApi/role/list")  || urlStr.equals("/yandeApi/role/search") || urlStr.equals("/yandeApi/role/getInfo"))
-            return true;
-
         String token = request.getHeader("User-Token");
-        System.out.println("token:" + token);
         if(token == null){
             log.info("token 请先登录"+ urlStr);
             response.sendError(412,"请先登录！");
@@ -58,11 +55,13 @@ public class RoleInterceptor implements HandlerInterceptor {
         }
         // 获取该用户id
         int userId = getUserId(l_token);
-        System.out.println("用户id：" + userId);
+        log.info("用户Token: {}", token);
         if(userId == -1){
-            log.info(" token无效"+ urlStr);
+            log.info("token无效, 访问url:[{}]",urlStr);
             response.sendError(412,"token无效！");
+            return false;
         }
+        log.info("用户id: {}", userId);
         // 权限检测
         if(!checkAuth(userId, urlStr))
         {
