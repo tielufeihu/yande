@@ -1,9 +1,7 @@
 package game605.servicelmpl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import game605.Application;
-import game605.bean.RoleAuthority;
 import game605.bean.User;
 import game605.mapper.UserMapper;
 import game605.myRedis.RedisService;
@@ -11,12 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 @Service
 public class UserService {
