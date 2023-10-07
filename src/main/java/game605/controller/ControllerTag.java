@@ -1,6 +1,5 @@
 package game605.controller;
 
-import game605.bean.ImgTag;
 import game605.bean.Tag;
 import game605.servicelmpl.ImgTagService;
 import game605.servicelmpl.TagService;
@@ -11,10 +10,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 
 @Controller
 @ResponseBody
