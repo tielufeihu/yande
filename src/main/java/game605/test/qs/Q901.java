@@ -71,7 +71,6 @@ public abstract class Q901 {
     }
 
 
-
     // 20ms左右  next 操作的均摊复杂度为 O(1)
     /**
      *     官方解 单调栈
