@@ -15,6 +15,7 @@ public class Q2562 {
      * 10.12 的每日一题， 简单题
      */
     public long findTheArrayConcVal(int[] nums) {
+
         int len = nums.length;
         int begin=0, end=len-1;
         long ret = 0;

@@ -1,7 +1,6 @@
 package game605.test.qs;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**

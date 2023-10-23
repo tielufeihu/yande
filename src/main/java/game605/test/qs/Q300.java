@@ -2,7 +2,9 @@ package game605.test.qs;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * 最长递增子序列
@@ -74,7 +76,18 @@ public class Q300 {
 
     @Test
     public void t1(){
-        System.out.println(lengthOfLIS2(new int[]{10,9,2,5,3,7,101,18}));
+        List<Integer> list = new ArrayList<>();
+        list.add(1);
+        System.out.println(list);
+        changeList(list);
+        System.out.println(list);
+
+        //System.out.println(lengthOfLIS2(new int[]{10,9,2,5,3,7,101,18}));
+    }
+
+    public void changeList(List<Integer> list){
+        list.add(2);
+        list.add(3);
     }
 
 
