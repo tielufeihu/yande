@@ -1,21 +1,17 @@
 package game605.Interceptors;
 
 import game605.Application;
-import game605.servicelmpl.AuthorityService;
-import game605.servicelmpl.TokenService;
-import game605.servicelmpl.UserService;
-import net.sf.jsqlparser.expression.operators.relational.GreaterThan;
+import game605.service.impl.AuthorityService;
+import game605.service.impl.TokenService;
+import game605.service.impl.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Enumeration;
 
 
 @Configuration

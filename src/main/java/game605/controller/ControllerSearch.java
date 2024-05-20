@@ -2,17 +2,15 @@ package game605.controller;
 
 import game605.bean.Imginfo;
 import game605.bean.Tag;
-import game605.servicelmpl.ImgInfoService;
-import game605.servicelmpl.ImgTagService;
-import game605.servicelmpl.TagService;
+import game605.service.impl.ImgInfoService;
+import game605.service.impl.RedisImgTagService;
+import game605.service.impl.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 @Controller
 @ResponseBody
@@ -27,7 +25,7 @@ public class ControllerSearch {
     TagService ts;
 
     @Autowired
-    ImgTagService its;
+    RedisImgTagService its;
 
     // 分页查询
     @RequestMapping("/img")

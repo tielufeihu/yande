@@ -1,8 +1,8 @@
 package game605.controller;
 
 import game605.bean.User;
-import game605.servicelmpl.TokenService;
-import game605.servicelmpl.UserService;
+import game605.service.impl.TokenService;
+import game605.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -10,10 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 @Controller
 @ResponseBody

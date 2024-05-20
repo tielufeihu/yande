@@ -2,9 +2,8 @@ package game605.controller;
 
 import game605.Application;
 import game605.bean.Tag;
-import game605.servicelmpl.ImgInfoService;
-import game605.servicelmpl.ImgTagService;
-import game605.servicelmpl.TagService;
+import game605.service.impl.ImgInfoService;
+import game605.service.impl.TagService;
 import game605.utilx.ImgUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

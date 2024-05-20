@@ -3,8 +3,7 @@ package game605.controller;
 
 import game605.bean.Auth;
 import game605.bean.RoleAuthority;
-import game605.servicelmpl.AuthorityService;
-import org.apache.ibatis.type.BlobTypeHandler;
+import game605.service.impl.AuthorityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;

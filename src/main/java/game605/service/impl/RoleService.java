@@ -1,4 +1,4 @@
-package game605.servicelmpl;
+package game605.service.impl;
 
 import game605.bean.Role;
 import game605.mapper.RoleMapper;

@@ -1,4 +1,4 @@
-package game605.servicelmpl;
+package game605.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
@@ -9,6 +9,7 @@ import game605.mapper.ImgTagMapper;
 import game605.mapper.ImginfoMapper;
 import game605.mapper.TagMapper;
 import game605.myRedis.RedisService;
+import game605.service.IImgTagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,8 +18,12 @@ import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * tag搜索 -- redis实现
+ * @author Koyou
+ */
 @Service
-public class ImgTagService {
+public class RedisImgTagService implements IImgTagService {
 
     @Autowired
     ImgTagMapper itm;
@@ -46,6 +51,7 @@ public class ImgTagService {
 
 
     //查询 某个 img的所有tag
+    @Override
     public List<Tag> getImgTagsFromId(int imgId){
         QueryWrapper<ImgTag> queryWrapper = new QueryWrapper();
         queryWrapper.eq("img_id",imgId);
@@ -76,6 +82,7 @@ public class ImgTagService {
 //    }
 
     //查询 具有某个tag的所有imgId
+    @Override
     public List<Integer> getImgsIdFromTag(int tagId){
         QueryWrapper<ImgTag> queryWrapper = new QueryWrapper<>();
         queryWrapper
@@ -107,7 +114,8 @@ public class ImgTagService {
 //    }
 
     // 新的使用 redis
-    public List<Integer> getImgsIdFromTag(int tagId,int page,int sept){
+    @Override
+    public List<Integer> getImgsIdFromTag(int tagId, int page, int sept){
         return rs.getImgsIdFromTag(tagId,page,sept);
     }
 
@@ -137,7 +145,8 @@ public class ImgTagService {
 //    }
 
     // 新的 使用redis
-    public List<Integer> getImgsIdFromTags(String[] tags,int page,int sept){
+    @Override
+    public List<Integer> getImgsIdFromTags(String[] tags, int page, int sept){
         // 判断tag是否长度为1
         if(tags.length == 0){
             List<Integer> resList = new ArrayList<>();
@@ -163,6 +172,7 @@ public class ImgTagService {
     }
 
     // 为图片添加一个tag
+    @Override
     @Transactional
     public int addTagToImg(int imgId, int tagId){
         // 加入到redis缓存

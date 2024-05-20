@@ -1,4 +1,4 @@
-package game605.servicelmpl;
+package game605.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
@@ -41,7 +41,7 @@ public class ImgInfoService {
     ImgTagMapper itm;
 
     @Autowired
-    ImgTagService its;
+    RedisImgTagService its;
 
     @Autowired
     TagService ts;

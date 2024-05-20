@@ -5,8 +5,8 @@ import game605.Application;
 import game605.bean.Tag;
 import game605.mapper.ImgTagMapper;
 import game605.mapper.TagMapper;
-import game605.servicelmpl.ImgTagService;
-import game605.servicelmpl.TagService;
+import game605.service.impl.RedisImgTagService;
+import game605.service.impl.TagService;
 import game605.utilx.ByteUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +33,7 @@ public class RedisScheduled {
     @Autowired
     TagService ts;
     @Autowired
-    ImgTagService its;
+    RedisImgTagService its;
 
     public int i;
 

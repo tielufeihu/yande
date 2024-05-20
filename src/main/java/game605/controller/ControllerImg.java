@@ -1,9 +1,8 @@
 package game605.controller;
 
 import game605.Application;
-import game605.servicelmpl.ImgInfoService;
-import game605.servicelmpl.ImgTagService;
-import game605.utilx.ImgUtil;
+import game605.service.impl.ImgInfoService;
+import game605.service.impl.RedisImgTagService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 @Controller
@@ -29,7 +27,7 @@ public class ControllerImg {
     ImgInfoService iis;
 
     @Autowired
-    ImgTagService its;
+    RedisImgTagService its;
 
 
     //根据id删除一个img
