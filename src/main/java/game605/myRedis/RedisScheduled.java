@@ -42,6 +42,7 @@ public class RedisScheduled {
     public void init() throws IOException {
         log.info("-----------  redis 初始化数据  ------------");
         // 开新线程，不影响系统启动
+        /*
         new Thread(() -> {
             i = 1;
             Jedis jedis = RedisUtil.getRedisConn();
@@ -73,7 +74,7 @@ public class RedisScheduled {
             }
             jedis.close();
             log.info("tag数据初始化完成！");
-        }, "MyThread").start();
+        }, "MyThread").start();*/
     }
 
 
