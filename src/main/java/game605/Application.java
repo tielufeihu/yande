@@ -18,14 +18,14 @@ public class Application {
 
     public static void main(String[] args) {
         ConfigurableApplicationContext run = SpringApplication.run(Application.class, args);
-        ESBookRepository esBookRepository = run.getBean(ESBookRepository.class);
-        Book b = new Book();
-        b.setId("12");
-        b.setAuthor("koyou");
-        b.setTitle("标题11");
-        b.setPrice(456456.65);
-        b.setCreateTime(new Date());
-        esBookRepository.save(b);
+        //ESBookRepository esBookRepository = run.getBean(ESBookRepository.class);
+        //Book b = new Book();
+        //b.setId("12");
+        //b.setAuthor("koyou");
+        //b.setTitle("标题11");
+        //b.setPrice(456456.65);
+        //b.setCreateTime(new Date());
+        //esBookRepository.save(b);
     }
 
 }

@@ -5,7 +5,7 @@ spring:
       max-request-size: 2048MB  #设置总上传的数据大小
   datasource:
     name: yande
-    url: jdbc:mysql://localhost:3306/yande11
+    url: jdbc:mysql://localhost:3306/yande11?serverTimezone=UTC
     username: root
     password: 986977
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -35,7 +35,7 @@ mybatis-plus:
   mapper-locations: classpath:mapper/*.xml
 
 server:
-  port: 8091
+  port: 8090
   address: 0.0.0.0
   error:
     include-message: always

@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Pipeline;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.locks.StampedLock;

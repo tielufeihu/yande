@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.4.5</version>
+        <version>3.1.8</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.to605nb</groupId>
@@ -14,7 +14,7 @@
     <name>yande</name>
     <description>Demo project for Spring Boot</description>
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>21</java.version>
     </properties>
 
     <dependencies>
@@ -35,15 +35,20 @@
         </dependency>
 
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <scope>runtime</scope>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>2.9.0</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-elasticsearch -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-elasticsearch</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.mybatis.spring.boot</groupId>
-            <artifactId>mybatis-spring-boot-starter</artifactId>
-            <version>2.1.4</version>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
         </dependency>
 
         <dependency>
@@ -51,11 +56,24 @@
             <artifactId>lombok</artifactId>
         </dependency>
 
-        <!-- mybatis-plus -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.19</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- mybatis plus -->
         <dependency>
             <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.4.3.1</version>
+            <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+            <version>3.5.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-extension</artifactId>
+            <version>3.5.6</version>
         </dependency>
 
         <dependency>
@@ -71,24 +89,6 @@
             <version>0.4.11</version>
         </dependency>
 
-        <dependency>
-            <groupId>redis.clients</groupId>
-            <artifactId>jedis</artifactId>
-            <version>2.9.0</version>
-        </dependency>
-
-
-        <!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-elasticsearch -->
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-elasticsearch</artifactId>
-            <version>5.3.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-        </dependency>
 
     </dependencies>
 
