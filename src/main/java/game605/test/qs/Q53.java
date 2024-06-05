@@ -9,8 +9,6 @@ package game605.test.qs;
  **/
 public class Q53 {
 
-    public int maxSubArray(int[] nums) {
 
-    }
 
 }

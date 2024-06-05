@@ -4,7 +4,6 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import game605.utilx.ByteUtil;
-import javafx.util.Callback;
 
 /**
  * 消费者代码
