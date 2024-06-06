@@ -29,7 +29,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception{
         log.info("request请求地址path[{}] uri[{}]", request.getServletPath(),request.getRequestURI());
-        if (request.getMethod().equals("OPTIONS")){
+        if ("OPTIONS".equals(request.getMethod())){
             //response.setStatus(response.SC_OK);
             return true;
         }

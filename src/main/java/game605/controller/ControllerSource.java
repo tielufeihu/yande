@@ -4,7 +4,7 @@ import game605.Application;
 import game605.bean.Tag;
 import game605.service.impl.ImgInfoService;
 import game605.service.impl.TagService;
-import game605.utilx.ImgUtil;
+import game605.util.ImgUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

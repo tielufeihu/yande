@@ -1,18 +1,15 @@
 package game605.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import game605.bean.ImgTag;
 import game605.bean.Tag;
 import game605.es.ESImgRepository;
 import game605.mapper.ImgTagMapper;
 import game605.mapper.TagMapper;
-import game605.myRedis.RedisService;
+import game605.redis.RedisService;
 import game605.service.IImgTagService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -70,7 +67,12 @@ public class ESImgTagService implements IImgTagService {
      */
     @Override
     public List<Integer> getImgsIdFromTags(String[] tags, int page, int sept) {
-        return esImgRepository.getImgsIdFromTags(tags, PageRequest.of(page,sept)).toList();
+        List<String> tagNames = new ArrayList<>();
+        for (String tag : tags) {
+            // 从数据库查询
+            tagNames.add(tm.getTagByName(tag).getName());
+        }
+        return esImgRepository.getImgsIdFromTags(tagNames, PageRequest.of(page,sept)).toList();
     }
 
     @Override

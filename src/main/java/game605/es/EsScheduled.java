@@ -2,10 +2,17 @@ package game605.es;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import game605.bean.ImgTag;
+import game605.bean.Imginfo;
 import game605.bean.Tag;
+import game605.bean.vo.ImgTagVO;
 import game605.mapper.ImgTagMapper;
+import game605.mapper.ImginfoMapper;
 import game605.mapper.TagMapper;
+import game605.service.impl.DBImgTagService;
+import game605.service.impl.RedisImgTagService;
+import game605.util.ByteUtil;
 import jakarta.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,14 +29,20 @@ import java.util.stream.Collectors;
  * @since 2024/6/6 14:03
  */
 @Component
+@Slf4j
 public class EsScheduled {
 
     @Autowired
     TagMapper tagMapper;
     @Autowired
+    ImginfoMapper imgMapper;
+    @Autowired
     ImgTagMapper imgTagMapper;
     @Autowired
     ESImgRepository esImgRepository;
+
+    @Autowired
+    DBImgTagService dts;
 
     @PostConstruct
     public void init() {
@@ -42,32 +55,44 @@ public class EsScheduled {
      * @author Koyou
      */
     private void refresh(){
-        System.out.println("执行刷新es");
-        // 获取mysql数据
-        List<Tag> tagList = tagMapper.selectList(null);
-        System.out.println("获取tag数据");
-        List<ImgTag> imgTagList = imgTagMapper.selectList(new QueryWrapper<ImgTag>().last("limit 10000"));
-        System.out.println("获取img数据");
-        // 同步到es
-        Map<Integer, List<ImgTag>> imgData = imgTagList.stream()
-                .collect(Collectors.groupingBy(ImgTag::getImgId));
-        List<ESImg> save = new ArrayList<>();
-        imgData.forEach((imgId, imgTags) -> {
+        List<ESImg> saveES = new ArrayList<>();
+        // 初始化 mysql 数据
+        log.info("获取mysql数据");
+        Long startTime = System.currentTimeMillis();
+
+        // 获取img数据并计算时间
+        log.info("开始 获取 img 数据");
+        Long beginTime = System.currentTimeMillis();
+        List<Imginfo> allImg = imgMapper.selectList(new QueryWrapper<Imginfo>().select("id", "path"));
+        Long endTime = System.currentTimeMillis();
+        log.info("获取 img 数据完成, 耗时: {}ms", endTime - beginTime);
+
+        // 逐个img进行更新 + 并行流加速
+        log.info("开始 根据img获取tag 数据");
+        beginTime = System.currentTimeMillis();
+        allImg.parallelStream().forEach(t->{
             ESImg esImg = new ESImg();
-            List<String> tags = new ArrayList<>();
-            esImg.setId(imgId);
-            for (ImgTag imgTag : imgTags){
-                // 搜索tag对应的tagName加入
-                tagList.stream()
-                        .filter(tag -> tag.getId()==imgTag.getTagId()).findAny()
-                        .ifPresent(tag -> tags.add(tag.getName()));
-            }
+            esImg.setId(t.getId());
+            esImg.setPath(t.getPath());
+            // 获取该Img的tag
+            List<ImgTagVO> imgTags = imgTagMapper.getImgTagVOByImgId(t.getId());
+            List<Integer> tagIds = imgTags.stream().map(ImgTagVO::getTagId).toList();
+            List<String> tags = imgTags.stream().map(ImgTagVO::getTagName).toList();
+            // 赋值
+            esImg.setTagIds(tagIds);
             esImg.setTags(tags);
-            save.add(esImg);
+            saveES.add(esImg);
         });
-        System.out.println("执行插入es");
-        esImgRepository.saveAll(save);
-        System.out.println("完成");
+        endTime = System.currentTimeMillis();
+        log.info("根据img获取tag 数据完成, 耗时: {}ms", endTime - beginTime);
+
+        // 保存到es
+        beginTime = System.currentTimeMillis();
+        esImgRepository.saveAll(saveES);
+        endTime = System.currentTimeMillis();
+        log.info("保存到es完成, 耗时: {}ms", endTime - beginTime);
+
+        log.info("总耗时: {}ms", startTime - beginTime);
     }
 
 

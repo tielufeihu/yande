@@ -35,7 +35,7 @@ public class ImgInterceptor implements HandlerInterceptor {
         response.setHeader ("Access-Control-Allow-Headers", "content-type,Token,User-Token,Content-Type");
         response.setHeader( "Access-control-Max-Age","3600");
 
-        if (request.getMethod().equals("OPTIONS")){
+        if ("OPTIONS".equals(request.getMethod())){
             //response.setStatus(response.SC_OK);
             return true;
         }

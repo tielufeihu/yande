@@ -1,4 +1,4 @@
-package game605.configClass;
+package game605.config;
 
 import game605.Interceptors.*;
 import org.springframework.context.annotation.Bean;

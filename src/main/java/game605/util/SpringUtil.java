@@ -1,12 +1,10 @@
-package game605.utilx;
+package game605.util;
 
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
-
-import java.util.Properties;
 
 /**
 * 这个类继承ApplicationContextAware

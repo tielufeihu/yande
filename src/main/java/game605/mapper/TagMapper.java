@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 @Mapper
 public interface TagMapper extends BaseMapper<Tag> {
 
+    Tag getTagByName(String tag);
 }

@@ -1,4 +1,4 @@
-package game605.utilx;
+package game605.util;
 
 import net.coobird.thumbnailator.Thumbnails;
 import org.slf4j.Logger;

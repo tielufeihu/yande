@@ -8,7 +8,7 @@ import game605.bean.Tag;
 import game605.mapper.ImgTagMapper;
 import game605.mapper.ImginfoMapper;
 import game605.mapper.TagMapper;
-import game605.myRedis.RedisService;
+import game605.redis.RedisService;
 import game605.service.IImgTagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;

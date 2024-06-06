@@ -1,7 +1,7 @@
-package game605.myRedis;
+package game605.redis;
 
 import game605.Application;
-import game605.utilx.ByteUtil;
+import game605.util.ByteUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

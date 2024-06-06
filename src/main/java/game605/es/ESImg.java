@@ -27,5 +27,7 @@ public class ESImg {
     private String path;
     @Field(type = FieldType.Keyword)
     private List<String> tags;
+    @Field(type = FieldType.Keyword)
+    private List<Integer> tagIds;
 
 }

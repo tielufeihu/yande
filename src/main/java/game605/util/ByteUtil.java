@@ -1,4 +1,4 @@
-package game605.utilx;
+package game605.util;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;

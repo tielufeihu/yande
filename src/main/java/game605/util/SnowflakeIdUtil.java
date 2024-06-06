@@ -1,4 +1,4 @@
-package game605.utilx;
+package game605.util;
 
 
 //  雪花算法

@@ -1,4 +1,4 @@
-package game605.myRedis;
+package game605.redis;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import game605.Application;
@@ -7,7 +7,7 @@ import game605.mapper.ImgTagMapper;
 import game605.mapper.TagMapper;
 import game605.service.impl.RedisImgTagService;
 import game605.service.impl.TagService;
-import game605.utilx.ByteUtil;
+import game605.util.ByteUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +37,7 @@ public class RedisScheduled {
 
     public int i;
 
-/*
+
     @PostConstruct // 构造函数之后执行
     public void init() {
         log.info("-----------  redis 初始化数据  ------------");
@@ -74,7 +74,7 @@ public class RedisScheduled {
             jedis.close();
             log.info("tag数据初始化完成！");
         }, "MyThread").start();
-    }*/
+    }
 
 
     public void refresh(){
@@ -101,7 +101,7 @@ public class RedisScheduled {
      * 通过定时任务 同步mysql 和 redis 的数据
      *
      */
-    //@Scheduled(fixedRate = 12000000)      // 3小时刷新一次 7200000  4 9600000
+    @Scheduled(fixedRate = 12000000)      // 3小时刷新一次 7200000  4 9600000
     public void SynchronizationData() {
         //System.out.println("------------- 定时任务 ------------");
         if (i++ != 1) {

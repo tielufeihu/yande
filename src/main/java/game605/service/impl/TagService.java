@@ -2,6 +2,7 @@ package game605.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import game605.bean.Tag;
 import game605.mapper.TagMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class TagService {
+public class TagService extends ServiceImpl<TagMapper, Tag> {
 
     @Autowired
     TagMapper tm;

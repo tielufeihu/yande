@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.annotations.Query;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -20,11 +21,11 @@ public interface ESImgRepository extends ElasticsearchRepository<ESImg, String> 
             {
               "query": {
                 "terms": {
-                  "tag": ?0
+                  "tag": #{#tags}
                 }
               }
             }
            """)
-    Page<Integer> getImgsIdFromTags(String[] tags, Pageable pageable);
+    Page<Integer> getImgsIdFromTags(Collection<String> tags, Pageable pageable);
 
 }

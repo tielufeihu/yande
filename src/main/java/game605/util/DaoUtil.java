@@ -1,4 +1,4 @@
-package game605.utilx;
+package game605.util;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
