@@ -11,10 +11,10 @@ import game605.mapper.TagMapper;
 import game605.myRedis.RedisService;
 import game605.service.IImgTagService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import jakarta.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +23,11 @@ import java.util.List;
  * @author Koyou
  */
 @Service
+@Primary
 public class RedisImgTagService implements IImgTagService {
+
+    @Autowired
+    DBImgTagService dbImgTagService;
 
     @Autowired
     ImgTagMapper itm;
@@ -41,110 +45,24 @@ public class RedisImgTagService implements IImgTagService {
     RedisService rs;
 
 
-    @PostConstruct
-    public void init(){
-        // TODO
-        /*
-          初始化 一个Tag Count map
-         */
-    }
-
-
-    //查询 某个 img的所有tag
     @Override
     public List<Tag> getImgTagsFromId(int imgId){
-        QueryWrapper<ImgTag> queryWrapper = new QueryWrapper();
-        queryWrapper.eq("img_id",imgId);
-        List<ImgTag> tags = itm.selectList(queryWrapper);
-
-        List<Tag> reTags = new ArrayList<>();
-        for(ImgTag t: tags){
-            Tag ttag = ts.getTagFromId(t.getTagId());
-            reTags.add(ttag);
-        }
-
-        return reTags;
+        return dbImgTagService.getImgTagsFromId(imgId);
     }
 
-    //查询 图片分页  弃用
-//    public List<String> getImgs(int page,int sept){
-//        QueryWrapper<ImgTag> queryWrapper = new QueryWrapper<>();
-//        queryWrapper
-//                .select("img_id")
-//                .orderByDesc("img_id + 1")    //此排序耗时很长
-//                .last("Limit " + (page-1)*sept + ", " + sept);
-//        List<ImgTag> itlist = itm.selectList(queryWrapper);
-//        List<String> imgIdList = new ArrayList<>();
-//        for (ImgTag t:itlist) {
-//            imgIdList.add(t.getImgId());
-//        }
-//        return imgIdList;
-//    }
 
-    //查询 具有某个tag的所有imgId
     @Override
     public List<Integer> getImgsIdFromTag(int tagId){
-        QueryWrapper<ImgTag> queryWrapper = new QueryWrapper<>();
-        queryWrapper
-                .eq("tag_id",tagId)
-                .select("img_id")
-                .orderByDesc("img_id");
-        List<ImgTag> itlist = itm.selectList(queryWrapper);
-        List<Integer> imgIdList = new ArrayList<>();
-        for (ImgTag t:itlist) {
-            imgIdList.add(t.getImgId());
-        }
-        return imgIdList;
+        return dbImgTagService.getImgsIdFromTag(tagId);
     }
 
-    //查询 具有某个tag的所有imgId  旧的
-//    public List<Integer> getImgsIdFromTag(int tagId,int page,int sept){
-//        QueryWrapper<ImgTag> queryWrapper = new QueryWrapper<>();
-//        queryWrapper
-//                .eq("tag_id",tagId)
-//                .select("img_id")
-//                .orderByDesc("img_id")
-//                .last("Limit " + (page-1)*sept + ", " + sept);
-//        List<ImgTag> itlist = itm.selectList(queryWrapper);
-//        List<Integer> imgIdList = new ArrayList<>();
-//        for (ImgTag t:itlist) {
-//            imgIdList.add(t.getImgId());
-//        }
-//        return imgIdList;
-//    }
 
-    // 新的使用 redis
     @Override
     public List<Integer> getImgsIdFromTag(int tagId, int page, int sept){
         return rs.getImgsIdFromTag(tagId,page,sept);
     }
 
-    //查询 具有多个 tag的 imgId  ok  旧的
-//    public List<Integer> getImgsIdFromTags(String[] tags,int page,int sept){
-//        QueryWrapper<ImgTag> queryWrapper = new QueryWrapper<>();
-//        //SELECT img_id FROM img_tag WHERE tag_id IN (82, 196) GROUP BY img_id HAVING COUNT(*) = 2
-//        StringBuilder insql = new StringBuilder();
-//        for (String tag:tags) {
-//            insql.append(ts.getIdFromName(tag));
-//            insql.append(",");
-//        }
-//        insql.deleteCharAt(insql.length()-1);
-//        queryWrapper
-//                .select("img_id")
-//                .orderByDesc("img_id")
-//                .groupBy("img_id")
-//                .having("COUNT(*) = " + tags.length)
-//                .inSql("tag_id",insql.toString())  // "82, 196"
-//                .last("Limit " + (page-1)*sept + ", " + sept);
-//        List<ImgTag> itlist = itm.selectList(queryWrapper);
-//        List<Integer> imgIdList = new ArrayList<>();
-//        for (ImgTag t:itlist) {
-//            imgIdList.add(t.getImgId());
-//        }
-//        return imgIdList;
-//    }
 
-    // 新的 使用redis
     @Override
     public List<Integer> getImgsIdFromTags(String[] tags, int page, int sept){
         // 判断tag是否长度为1
@@ -171,7 +89,7 @@ public class RedisImgTagService implements IImgTagService {
         }
     }
 
-    // 为图片添加一个tag
+
     @Override
     @Transactional
     public int addTagToImg(int imgId, int tagId){
@@ -183,7 +101,8 @@ public class RedisImgTagService implements IImgTagService {
         imgTag.setTagId(tagId);
         UpdateWrapper<Tag> wrapper = new UpdateWrapper<Tag>();
         wrapper.eq("id",tagId);
-        wrapper.setSql("`img_count` = `img_count` + 1");  // mybatis-plus 实现字段的自增
+        // mybatis-plus 实现字段的自增
+        wrapper.setSql("`img_count` = `img_count` + 1");
         re*=tm.update(null,wrapper);
         re*=itm.insert(imgTag);
         return re;

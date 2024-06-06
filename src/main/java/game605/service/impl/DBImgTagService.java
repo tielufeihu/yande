@@ -9,9 +9,9 @@ import game605.mapper.ImginfoMapper;
 import game605.mapper.TagMapper;
 import game605.service.IImgTagService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import jakarta.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +22,7 @@ import java.util.List;
  * @description tag搜索 -- DB实现
  * @since 2024/5/19 16:31
  */
+@Service
 public class DBImgTagService implements IImgTagService {
 
     @Autowired
@@ -37,27 +38,16 @@ public class DBImgTagService implements IImgTagService {
     TagMapper tm;
 
 
-    @PostConstruct
-    public void init(){
-        // TODO
-        /*
-          初始化 一个Tag Count map
-         */
-    }
-
-
     @Override
     public List<Tag> getImgTagsFromId(int imgId){
         QueryWrapper<ImgTag> queryWrapper = new QueryWrapper();
         queryWrapper.eq("img_id",imgId);
         List<ImgTag> tags = itm.selectList(queryWrapper);
-
         List<Tag> reTags = new ArrayList<>();
         for(ImgTag t: tags){
             Tag ttag = ts.getTagFromId(t.getTagId());
             reTags.add(ttag);
         }
-
         return reTags;
     }
 
