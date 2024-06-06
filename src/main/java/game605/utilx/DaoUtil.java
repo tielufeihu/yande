@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import java.sql.*;
 
 @Component
-@ConfigurationProperties(prefix = "mysqlproperties")
+@ConfigurationProperties(prefix = "mysql-properties")
 public class DaoUtil {
 
     private static String url;

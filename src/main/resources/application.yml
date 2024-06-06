@@ -42,7 +42,7 @@ server:
   servlet:
     context-path: /yandeApi
 
-mysqlproperties:
+mysql-properties:
   url: jdbc:mysql://localhost:3306/yande11?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=true
   name: yande11
   username: root
