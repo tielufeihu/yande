@@ -23,7 +23,6 @@ import java.util.List;
  * @author Koyou
  */
 @Service
-@Primary
 public class RedisImgTagService implements IImgTagService {
 
     @Autowired

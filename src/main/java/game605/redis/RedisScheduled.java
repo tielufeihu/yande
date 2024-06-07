@@ -37,7 +37,7 @@ public class RedisScheduled {
 
     public int i;
 
-
+/*
     @PostConstruct // 构造函数之后执行
     public void init() {
         log.info("-----------  redis 初始化数据  ------------");
@@ -76,7 +76,7 @@ public class RedisScheduled {
         }, "MyThread").start();
     }
 
-
+*/
     public void refresh(){
         Jedis jedis = RedisUtil.getRedisConn();
         // 获取所有Tag信息
@@ -101,7 +101,7 @@ public class RedisScheduled {
      * 通过定时任务 同步mysql 和 redis 的数据
      *
      */
-    @Scheduled(fixedRate = 12000000)      // 3小时刷新一次 7200000  4 9600000
+    //@Scheduled(fixedRate = 12000000)      // 3小时刷新一次 7200000  4 9600000
     public void SynchronizationData() {
         //System.out.println("------------- 定时任务 ------------");
         if (i++ != 1) {

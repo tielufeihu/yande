@@ -10,6 +10,7 @@ import game605.mapper.ImgTagMapper;
 import game605.mapper.ImginfoMapper;
 import game605.mapper.TagMapper;
 import game605.redis.RedisService;
+import game605.service.IImgTagService;
 import game605.util.ImgUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +42,7 @@ public class ImgInfoService {
     ImgTagMapper itm;
 
     @Autowired
-    RedisImgTagService its;
+    IImgTagService its;
 
     @Autowired
     TagService ts;

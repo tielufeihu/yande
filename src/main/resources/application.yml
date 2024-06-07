@@ -1,20 +1,27 @@
 spring:
+  datasource:
+    # 连接池类型
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/yande11?serverTimezone=UTC
+      username: root
+      password: 986977
+
   servlet:
     multipart:
       max-file-size: 150MB  #设置单个文件大小
       max-request-size: 2048MB  #设置总上传的数据大小
-  datasource:
-    name: yande
-    url: jdbc:mysql://localhost:3306/yande11?serverTimezone=UTC
-    username: root
-    password: 986977
-    driver-class-name: com.mysql.cj.jdbc.Driver
+
   data:
     mongodb:
       uri: mongodb://localhost:27017/myDB
+
   elasticsearch:
     rest:
       uris: localhost:9200
+      socket-timeout: 30000
+
       # username:
       # password:
 

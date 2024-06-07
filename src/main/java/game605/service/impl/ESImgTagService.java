@@ -9,6 +9,7 @@ import game605.mapper.TagMapper;
 import game605.redis.RedisService;
 import game605.service.IImgTagService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,7 @@ import java.util.List;
  * @since 2024/5/19 16:38
  */
 @Service
+@Primary
 public class ESImgTagService implements IImgTagService {
 
     @Autowired

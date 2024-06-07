@@ -1,6 +1,8 @@
 package game605.es;
 
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.google.common.collect.Lists;
 import game605.bean.ImgTag;
 import game605.bean.Imginfo;
 import game605.bean.Tag;
@@ -14,6 +16,9 @@ import game605.util.ByteUtil;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.elasticsearch.client.elc.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
+import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -40,6 +45,11 @@ public class EsScheduled {
     ImgTagMapper imgTagMapper;
     @Autowired
     ESImgRepository esImgRepository;
+    @Autowired
+    ElasticsearchClient elasticsearchClient;
+    @Autowired
+    ElasticsearchOperations elasticsearchOperations;
+
 
     @Autowired
     DBImgTagService dts;
@@ -55,16 +65,19 @@ public class EsScheduled {
      * @author Koyou
      */
     private void refresh(){
+        // 删除原索引
+        elasticsearchOperations.indexOps(IndexCoordinates.of("es_img")).delete();
+
         List<ESImg> saveES = new ArrayList<>();
         // 初始化 mysql 数据
         log.info("获取mysql数据");
-        Long startTime = System.currentTimeMillis();
+        long startTime = System.currentTimeMillis();
 
         // 获取img数据并计算时间
         log.info("开始 获取 img 数据");
-        Long beginTime = System.currentTimeMillis();
+        long beginTime = System.currentTimeMillis();
         List<Imginfo> allImg = imgMapper.selectList(new QueryWrapper<Imginfo>().select("id", "path"));
-        Long endTime = System.currentTimeMillis();
+        long endTime = System.currentTimeMillis();
         log.info("获取 img 数据完成, 耗时: {}ms", endTime - beginTime);
 
         // 逐个img进行更新 + 并行流加速
@@ -86,14 +99,20 @@ public class EsScheduled {
         endTime = System.currentTimeMillis();
         log.info("根据img获取tag 数据完成, 耗时: {}ms", endTime - beginTime);
 
+
         // 保存到es
+        log.info("开始 保存到es");
         beginTime = System.currentTimeMillis();
-        esImgRepository.saveAll(saveES);
+        // 单次保存会出现 Request Entity Too Large 的异常，因此需要切片分batch
+        List<List<ESImg>> batches = Lists.partition(saveES, 500);
+        for (List<ESImg> batch : batches) {
+            esImgRepository.saveAll(batch);
+        }
         endTime = System.currentTimeMillis();
         log.info("保存到es完成, 耗时: {}ms", endTime - beginTime);
-
-        log.info("总耗时: {}ms", startTime - beginTime);
+        log.info("总耗时: {}ms", endTime - startTime);
     }
+
 
 
 }
