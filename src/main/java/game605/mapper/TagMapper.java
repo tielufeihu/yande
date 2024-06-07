@@ -5,9 +5,11 @@ import game605.bean.Tag;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 @Mapper
 public interface TagMapper extends BaseMapper<Tag> {
 
-    Tag getTagByName(String tag);
+    List<Tag> findByName(String tag);
 }

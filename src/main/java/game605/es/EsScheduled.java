@@ -54,7 +54,7 @@ public class EsScheduled {
     @Autowired
     DBImgTagService dts;
 
-    @PostConstruct
+    //@PostConstruct
     public void init() {
         refresh();
     }

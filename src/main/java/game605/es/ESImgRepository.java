@@ -6,7 +6,6 @@ import org.springframework.data.elasticsearch.annotations.Query;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
 import java.util.Collection;
-import java.util.List;
 
 /**
  * @author Koyou
@@ -19,13 +18,23 @@ public interface ESImgRepository extends ElasticsearchRepository<ESImg, String> 
 
     @Query("""
             {
-              "query": {
-                "terms": {
-                  "tag": #{#tags}
+                "bool": {
+                    "must": [
+                        {
+                            "bool": {
+                                "must": [
+                                    {
+                                        "terms": {
+                                            "tags":?0
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
                 }
-              }
             }
-           """)
-    Page<Integer> getImgsIdFromTags(Collection<String> tags, Pageable pageable);
+            """)
+    Page<ESImg> getImgsIdFromTags(Collection<String> tags, Pageable pageable);
 
 }
