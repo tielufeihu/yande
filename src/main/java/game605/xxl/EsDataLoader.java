@@ -1,41 +1,36 @@
-package game605.es;
+package game605.xxl;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.collect.Lists;
-import game605.bean.ImgTag;
+import com.xxl.job.core.handler.annotation.XxlJob;
 import game605.bean.Imginfo;
-import game605.bean.Tag;
 import game605.bean.vo.ImgTagVO;
+import game605.es.ESImg;
+import game605.es.ESImgRepository;
 import game605.mapper.ImgTagMapper;
 import game605.mapper.ImginfoMapper;
 import game605.mapper.TagMapper;
 import game605.service.impl.DBImgTagService;
-import game605.service.impl.RedisImgTagService;
-import game605.util.ByteUtil;
-import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.elasticsearch.client.elc.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * @author Koyou
  * @version 1.0.0
- * @className EsScheduled
- * @description Es启动任务
- * @since 2024/6/6 14:03
+ * @className EsDataLoader
+ * @description TODO
+ * @since 2024/6/7 18:01
  */
 @Component
 @Slf4j
-public class EsScheduled {
+public class EsDataLoader {
 
     @Autowired
     TagMapper tagMapper;
@@ -50,14 +45,8 @@ public class EsScheduled {
     @Autowired
     ElasticsearchOperations elasticsearchOperations;
 
-
     @Autowired
     DBImgTagService dts;
-
-    //@PostConstruct
-    public void init() {
-        refresh();
-    }
 
     /**
      * 初步测试通过
@@ -114,5 +103,11 @@ public class EsScheduled {
     }
 
 
+    @XxlJob("esDataLoader")
+    public void esDataLoader() {
+        log.info("esDataLoader");
+        refresh();
+        log.info("esDataLoader success");
+    }
 
 }
