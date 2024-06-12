@@ -5,6 +5,22 @@ import java.util.List;
 
 public class Q108 {
 
+    public TreeNode sortedArrayToBST2(int[] nums) {
+        return helper2(nums, 0, nums.length - 1);
+    }
+
+
+    public TreeNode helper2(int[] nums, int left, int right) {
+        if (left > right) {
+            return null;
+        }
+        int mid = (left + right) / 2;
+        TreeNode root = new TreeNode(nums[mid]);
+        root.left = helper2(nums, left, mid - 1);
+        root.right = helper2(nums, mid + 1, right);
+        return root;
+    }
+
     // 题解
     public TreeNode sortedArrayToBST(int[] nums) {
         return helper(nums, 0, nums.length - 1);
