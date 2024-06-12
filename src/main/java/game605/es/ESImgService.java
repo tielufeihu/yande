@@ -1,13 +1,21 @@
 package game605.es;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch.core.SearchRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.elasticsearch.client.elc.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
+import org.springframework.data.elasticsearch.core.SearchHit;
+import org.springframework.data.elasticsearch.core.query.Query;
+import org.springframework.data.elasticsearch.core.query.StringQuery;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -26,17 +34,38 @@ public class ESImgService {
     @Autowired
     private ElasticsearchClient client;
 
+
+
     Page<ESImg> getImgsIdFromTags(Collection<String> tags, Pageable pageable){
         return esImgRepository.getImgsIdFromTags(tags, pageable);
     }
 
     List<ESImg> getImgsIdFromTags(Collection<String> tags, int page, int step) throws IOException {
         // TODO
-//        client.search(searchReq -> searchReq.index("es_img")
-//                .query(query -> {
-//                    query.bool(bool -> bool.must())
-//                }),ESImg.class);
-        return null;
+        Query query = new StringQuery("""
+        "bool": {
+            "must": [
+                {
+                    "bool": {
+                        "must": [
+                            {
+                                "term": {
+                                    "tags": "thighhighs"
+                                }
+                            },
+                            {
+                                "term": {
+                                    "tags": "genshin_impact"
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+                """);
+        List<ESImg> ret = new ArrayList<>();
+        return ret;
     }
 
 

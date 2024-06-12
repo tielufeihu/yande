@@ -27,7 +27,6 @@ import java.util.List;
  * @since 2024/5/19 16:38
  */
 @Service
-@Primary
 public class ESImgTagService implements IImgTagService {
 
     @Autowired

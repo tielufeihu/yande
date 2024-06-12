@@ -2,6 +2,7 @@ package game605.controller;
 
 import game605.bean.Imginfo;
 import game605.bean.Tag;
+import game605.service.IImgTagService;
 import game605.service.impl.ImgInfoService;
 import game605.service.impl.RedisImgTagService;
 import game605.service.impl.TagService;
@@ -25,7 +26,7 @@ public class ControllerSearch {
     TagService ts;
 
     @Autowired
-    RedisImgTagService its;
+    IImgTagService its;
 
     // 分页查询
     @RequestMapping("/img")

@@ -7,20 +7,17 @@ public class ImgUtil {
 
     //将图片（路径）转换成字节流
     public static byte[] getImgByte(String path) throws IOException {
-        FileInputStream fis = new FileInputStream(path);
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-
-        int len = 0;
-        byte[] b = new byte[1024];
-        while ((len = fis.read(b))!= -1){
-            out.write(b,0,len);
+        try (FileInputStream fis = new FileInputStream(path)) {
+            int len = 0;
+            byte[] b = new byte[1024];
+            while ((len = fis.read(b)) != -1) {
+                out.write(b, 0, len);
+            }
+        } catch (IOException e) {
+            throw e;
         }
-
-        //接收out
         byte[] imgByte = out.toByteArray();
-        fis.close();
-        out.close();
-
         return imgByte;
     }
 
@@ -81,8 +78,7 @@ public class ImgUtil {
         BufferedImage b_img = SLTUtil.bytesToBufferedImage(img);
         x = b_img.getWidth();
         y = b_img.getHeight();
-        nn = 160000.0 / x / y;
-        n = Math.sqrt(nn);
+        n = Math.sqrt(160000.0 / x / y);
         nx = x * n;
         ny = y * n;
         BufferedImage b_img_new = SLTUtil.resizeImageOne(b_img, (int) nx, (int) ny);

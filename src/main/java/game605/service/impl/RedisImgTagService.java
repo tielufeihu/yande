@@ -22,6 +22,7 @@ import java.util.List;
  * tag搜索 -- redis实现
  * @author Koyou
  */
+@Primary
 @Service
 public class RedisImgTagService implements IImgTagService {
 

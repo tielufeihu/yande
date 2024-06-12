@@ -1,6 +1,7 @@
 package game605.controller;
 
 import game605.bean.Tag;
+import game605.service.IImgTagService;
 import game605.service.impl.RedisImgTagService;
 import game605.service.impl.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class ControllerTag {
     TagService ts;
 
     @Autowired
-    RedisImgTagService its;
+    IImgTagService its;
 
 
     //设置 tag

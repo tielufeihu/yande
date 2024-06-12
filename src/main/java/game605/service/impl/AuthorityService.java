@@ -26,9 +26,7 @@ public class AuthorityService {
     //静态获取权限字典
     static {
         InputStream input = null;
-        // ok jar下运行良好
         input = AuthorityService.class.getClassLoader().getResourceAsStream("static/txt/authority_dict.yml");
-        //input = new FileInputStream("src/main/resources/static/txt/authority_dict.yml");  //D:\学习\projects\JavaProjects\yande\target\authority_dict.yml
         //读yaml
         Yaml yaml = new Yaml();
         ArrayList authority_dict = yaml.load(input);
