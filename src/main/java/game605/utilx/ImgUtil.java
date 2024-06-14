@@ -4,10 +4,13 @@ import org.python.modules.math;
 
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class ImgUtil {
 
-    //将图片（路径）转换成字节流
+    // 将图片（路径）转换成字节流
     public static byte[] getImgByte(String path) throws IOException {
         FileInputStream fis = new FileInputStream(path);
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -24,6 +27,12 @@ public class ImgUtil {
         out.close();
 
         return imgByte;
+    }
+
+    // 一次性读取
+    public static byte[] getImgByte2(String path) throws IOException {
+        Path filePath = Paths.get(path);
+        return Files.readAllBytes(filePath);
     }
 
     //将图片转（File类）换成字节流
