@@ -13,7 +13,7 @@ import java.io.IOException;
  * @author Koyou
  * @version 1.0.0
  * @className ImgGetter
- * @description TODO
+ * @description 调用python爬虫 获取数据
  * @since 2024/6/7 18:02
  */
 @Component
