@@ -1,23 +1,22 @@
 package game605.test.qs;
 
-import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
- * 全排列
- * @version 0.1.0
- * @author 孙铁义
- * @since 0.1.0
- * @create 2023/10/23 15:45
- **/
-public class Q46 {
+ * @author Koyou
+ * @version 1.0.0
+ * @className Q47
+ * @description 全排列2
+ * @since 2024/7/4 10:39
+ */
+public class Q47 {
 
-    public List<List<Integer>> permute(int[] nums) {
+    // 我的插空法，非递归回溯
+    public List<List<Integer>> permuteUnique(int[] nums) {
         int len = nums.length;
         List<List<Integer>> ret = new ArrayList<>();
+        Set<List<Integer>> set = new HashSet<>();
         // 特判
         if(len==1){
             List<Integer> list = new ArrayList<>();
@@ -32,12 +31,12 @@ public class Q46 {
         List<Integer> l2 = new ArrayList<>();
         l2.add(nums[1]);
         l2.add(nums[0]);
-        ret.add(l1);
-        ret.add(l2);
+        set.add(l1);
+        set.add(l2);
         for (int i = 2; i < len; i++) {
             int curr = nums[i];
-            List<List<Integer>> temp = new ArrayList<>();
-            for (List<Integer> list : ret) {
+            Set<List<Integer>> temp = new HashSet<>();
+            for (List<Integer> list : set) {
                 // 在每个位置插入
                 for (int j = 0; j <= list.size(); j++) {
                     ArrayList<Integer> tempList = new ArrayList<>(list);
@@ -45,21 +44,22 @@ public class Q46 {
                     temp.add(tempList);
                 }
             }
-            ret = temp;
+            set = temp;
         }
+        ret = new ArrayList<>(set);
         return ret;
     }
+
 
     // 回溯
-    public List<List<Integer>> permute2(int[] nums){
-        List<List<Integer>> ret = new ArrayList<>();
+    public List<List<Integer>> permuteUnique2(int[] nums){
+        Set<List<Integer>> ret = new HashSet<>();
         boolean[] flags = new boolean[nums.length];
         bfs(0,new ArrayList<>(),flags,nums,ret);
-        return ret;
+        return new ArrayList<>(ret);
     }
 
-
-    public void bfs(int count, List<Integer> output,boolean[] flags, int[] nums, List<List<Integer>> ret){
+    public void bfs(int count, List<Integer> output,boolean[] flags, int[] nums, Set<List<Integer>> ret){
         // 出口
         if(count == nums.length){
             ret.add(output);
@@ -81,9 +81,10 @@ public class Q46 {
         }
     }
 
-    @Test
-    public void t1(){
-        System.out.println(permute2(new int[]{1,2,3}));
+
+    public static void main(String[] args) {
+        Q47 q47 = new Q47();
+        System.out.println(q47.permuteUnique2(new int[]{1,1,2}));
     }
 
 
