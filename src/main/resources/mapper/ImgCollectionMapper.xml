@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="game605.mapper.ImgCollectionMapper">
+
+    <resultMap id="BaseResultMap" type="game605.bean.ImgCollection">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="cnName" column="cn_name" jdbcType="VARCHAR"/>
+            <result property="imgCount" column="img_count" jdbcType="INTEGER"/>
+            <result property="description" column="description" jdbcType="VARCHAR"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="author" column="author" jdbcType="VARCHAR"/>
+            <result property="creatorId" column="creator_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,cn_name,
+        img_count,description,update_time,
+        create_time,author,creator_id
+    </sql>
+</mapper>
