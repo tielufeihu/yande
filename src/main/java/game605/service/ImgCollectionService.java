@@ -2,6 +2,7 @@ package game605.service;
 
 import game605.bean.ImgCollection;
 import com.baomidou.mybatisplus.extension.service.IService;
+import game605.bean.dto.ImgCollectionDTO;
 
 /**
 * @author Koyou
@@ -10,4 +11,19 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface ImgCollectionService extends IService<ImgCollection> {
 
+    /**
+     * 新增图集
+     * @param imgCollectionDTO 图集DTO
+     * @return
+     */
+    int addImgCollection(ImgCollectionDTO imgCollectionDTO);
+
+    /**
+     * 删除图集
+     * @param id
+     * @return
+     */
+    int deleteImgCollection(long id);
+
+    int getImgCollectionInfo(long id);
 }

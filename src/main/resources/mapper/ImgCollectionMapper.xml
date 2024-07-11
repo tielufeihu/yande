@@ -21,4 +21,7 @@
         img_count,description,update_time,
         create_time,author,creator_id
     </sql>
+
+
+
 </mapper>
