@@ -5,10 +5,7 @@ import game605.bean.web.ResponseResult;
 import game605.service.UserCollectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author Koyou
@@ -17,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @description 用户收藏功能
  * @since 2024/7/11 16:57
  */
-@Controller
+@RestController
 @RequestMapping("/userCollect")
 public class UserCollectController {
 
@@ -26,8 +23,6 @@ public class UserCollectController {
 
     /**
      * 添加收藏
-     * @param userCollect
-     * @return
      */
     @PostMapping("/collect")
     public ResponseResult collect(@RequestBody UserCollect userCollect){
@@ -36,8 +31,6 @@ public class UserCollectController {
 
     /**
      * 取消收藏
-     * @param userCollect
-     * @return
      */
     @PostMapping("/cancelCollect")
     public ResponseResult cancelCollect(@RequestBody UserCollect userCollect){
@@ -46,12 +39,10 @@ public class UserCollectController {
 
     /**
      * 查询收藏
-     * @param userCollect
-     * @return
      */
     @GetMapping("/queryCollect")
-    public ResponseResult queryCollect(UserCollect userCollect){
-        return ResponseResult.success(userCollectService.queryCollect(userCollect));
+    public ResponseResult queryCollect(@RequestParam Integer userId , @RequestParam Integer imgId, @RequestParam Integer pageNum, @RequestParam Integer pageSize){
+        return ResponseResult.success(userCollectService.queryCollect(userId, imgId, pageNum, pageSize));
     }
 
 

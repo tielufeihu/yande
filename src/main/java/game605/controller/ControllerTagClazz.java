@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
  * @description 标签类型控制器
  * @since 2024/7/10 16:08
  */
-@Controller
+@RestController
 @RequestMapping("/tagClazz")
 
 public class ControllerTagClazz {

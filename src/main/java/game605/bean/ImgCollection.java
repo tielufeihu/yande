@@ -15,6 +15,7 @@ import lombok.Data;
 @TableName(value ="img_collection")
 @Data
 public class ImgCollection implements Serializable {
+
     /**
      * 主键
      */
@@ -47,12 +48,12 @@ public class ImgCollection implements Serializable {
     private Integer cover;
 
     /**
-     * 
+     *
      */
     private Date updateTime;
 
     /**
-     * 
+     *
      */
     private Date createTime;
 

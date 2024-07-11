@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
 
-import game605.bean.web.BaseEntity;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -19,7 +18,7 @@ import lombok.experimental.Accessors;
 @TableName(value ="user_collect")
 @Data
 @Accessors(chain = true)
-public class UserCollect extends BaseEntity implements Serializable {
+public class UserCollect implements Serializable {
     /**
      * 主键
      */

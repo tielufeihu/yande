@@ -26,6 +26,11 @@ public class UserCollectServiceImpl extends ServiceImpl<UserCollectMapper, UserC
 
     @Override
     public int collect(UserCollect userCollect) {
+        if(userCollectMapper.exists(new QueryWrapper<UserCollect>()
+                .eq("user_id", userCollect.getUserId())
+                .eq("img_id", userCollect.getImgId()))){
+            throw new RuntimeException("该图片已收藏");
+        }
         return userCollectMapper.insert(userCollect.setCollectDate(new Date()));
     }
 
@@ -35,10 +40,11 @@ public class UserCollectServiceImpl extends ServiceImpl<UserCollectMapper, UserC
     }
 
     @Override
-    public Page<UserCollect> queryCollect(UserCollect userCollect) {
+    public Page<UserCollect> queryCollect(Integer userId, Integer imgId, Integer pageNum, Integer pageSize) {
         return userCollectMapper
-                .selectPage(new Page<>(1, 10),
-                        new QueryWrapper<>(userCollect)
+                .selectPage(new Page<>(pageNum, pageSize),
+                        new QueryWrapper<UserCollect>()
+                                .eq("user_id", userId)
                                 .orderByDesc("collect_date"));
     }
 }

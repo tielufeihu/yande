@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
  * @description 画集控制器
  * @since 2024/7/10 17:51
  */
-@Controller
+@RestController
 @RequestMapping("/imgCollection")
 public class ImgCollectionController {
 

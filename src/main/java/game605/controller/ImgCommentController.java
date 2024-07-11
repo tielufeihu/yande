@@ -5,10 +5,7 @@ import game605.bean.web.ResponseResult;
 import game605.service.ImgCommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author Koyou
@@ -17,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @description TODO
  * @since 2024/7/11 16:24
  */
-@Controller
+@RestController
 @RequestMapping("/imgComment")
 public class ImgCommentController {
 

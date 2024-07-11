@@ -39,7 +39,7 @@ public class ImgComment implements Serializable {
     /**
      * 回复
      */
-    private Integer reference;
+    private Integer reference = 0;
 
     /**
      * 评论时间

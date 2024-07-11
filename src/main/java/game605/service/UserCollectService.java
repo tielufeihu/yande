@@ -29,8 +29,8 @@ public interface UserCollectService extends IService<UserCollect> {
 
     /**
      * 查询收藏
-     * @param userCollect
+     * @param
      * @return
      */
-    Page<UserCollect> queryCollect(UserCollect userCollect);
+    Page<UserCollect> queryCollect(Integer userId, Integer imgId, Integer pageNum, Integer pageSize);
 }

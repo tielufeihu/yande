@@ -4,15 +4,11 @@ import game605.bean.Role;
 import game605.service.impl.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
-@ResponseBody
+@RestController
 @RequestMapping("/role")
 @CrossOrigin(origins = "*")
 public class ControllerRole {
