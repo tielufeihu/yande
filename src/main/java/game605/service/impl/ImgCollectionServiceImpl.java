@@ -1,10 +1,12 @@
 package game605.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import game605.bean.ImgCollection;
 import game605.bean.ImgCollectionDetail;
 import game605.bean.dto.ImgCollectionDTO;
+import game605.bean.vo.ImgCollectionVO;
 import game605.mapper.ImgCollectionDetailMapper;
 import game605.service.ImgCollectionService;
 import game605.mapper.ImgCollectionMapper;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 
 /**
 * @author Koyou
@@ -68,10 +71,38 @@ public class ImgCollectionServiceImpl extends ServiceImpl<ImgCollectionMapper, I
         return ret;
     }
 
+    /**
+     * 获取单个图集详细信息
+     * @param id
+     * @return
+     */
     @Override
-    public int getImgCollectionInfo(long id) {
-        return 0;
+    public ImgCollectionVO getImgCollectionInfo(long id) {
+        // 查询主表
+        ImgCollection imgCollection = imgCollectionMapper.selectById(id);
+        ImgCollectionVO imgCollectionVO = new ImgCollectionVO(imgCollection);
+        // 查询子表
+        List<ImgCollectionDetail> imgCollectionDetails = imgCollectionDetailMapper
+                .selectList(new QueryWrapper<ImgCollectionDetail>().eq("collection_id", id));
+        imgCollectionVO.setImgList(imgCollectionDetails);
+        return imgCollectionVO;
     }
+
+    /**
+     *
+     * 查询图集列表
+     *
+     * @param query 查询条件
+     * @param pageNum 分页页码
+     * @param pageSize 分页大小
+     * @return 图集列表
+     */
+    @Override
+    public Page<ImgCollection> getImgCollectionList(ImgCollection query, int pageNum, int pageSize) {
+        QueryWrapper<ImgCollection> wrapper = new QueryWrapper<>(query);
+        return imgCollectionMapper.selectPage(new Page<>(pageNum, pageSize), wrapper);
+    }
+
 
 }
 

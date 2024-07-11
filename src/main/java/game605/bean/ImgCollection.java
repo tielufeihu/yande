@@ -42,12 +42,17 @@ public class ImgCollection implements Serializable {
     private String description;
 
     /**
-     *
+     * 封面
+     */
+    private Integer cover;
+
+    /**
+     * 
      */
     private Date updateTime;
 
     /**
-     *
+     * 
      */
     private Date createTime;
 
@@ -81,6 +86,7 @@ public class ImgCollection implements Serializable {
             && (this.getCnName() == null ? other.getCnName() == null : this.getCnName().equals(other.getCnName()))
             && (this.getImgCount() == null ? other.getImgCount() == null : this.getImgCount().equals(other.getImgCount()))
             && (this.getDescription() == null ? other.getDescription() == null : this.getDescription().equals(other.getDescription()))
+            && (this.getCover() == null ? other.getCover() == null : this.getCover().equals(other.getCover()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getAuthor() == null ? other.getAuthor() == null : this.getAuthor().equals(other.getAuthor()))
@@ -96,6 +102,7 @@ public class ImgCollection implements Serializable {
         result = prime * result + ((getCnName() == null) ? 0 : getCnName().hashCode());
         result = prime * result + ((getImgCount() == null) ? 0 : getImgCount().hashCode());
         result = prime * result + ((getDescription() == null) ? 0 : getDescription().hashCode());
+        result = prime * result + ((getCover() == null) ? 0 : getCover().hashCode());
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getAuthor() == null) ? 0 : getAuthor().hashCode());
@@ -114,10 +121,11 @@ public class ImgCollection implements Serializable {
         sb.append(", cnName=").append(cnName);
         sb.append(", imgCount=").append(imgCount);
         sb.append(", description=").append(description);
+        sb.append(", cover=").append(cover);
         sb.append(", updateTime=").append(updateTime);
         sb.append(", createTime=").append(createTime);
-        sb.append(", auther=").append(author);
-        sb.append(", createrId=").append(creatorId);
+        sb.append(", author=").append(author);
+        sb.append(", creatorId=").append(creatorId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

@@ -1,8 +1,12 @@
 package game605.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import game605.bean.ImgCollection;
 import com.baomidou.mybatisplus.extension.service.IService;
 import game605.bean.dto.ImgCollectionDTO;
+import game605.bean.vo.ImgCollectionVO;
+
+import java.util.List;
 
 /**
 * @author Koyou
@@ -25,5 +29,23 @@ public interface ImgCollectionService extends IService<ImgCollection> {
      */
     int deleteImgCollection(long id);
 
-    int getImgCollectionInfo(long id);
+    /**
+     * 获取单个图集详细信息
+     * @param id
+     * @return 图集详细信息
+     */
+    ImgCollectionVO getImgCollectionInfo(long id);
+
+
+    /**
+     *
+     * 查询图集列表
+     *
+     * @param query 查询条件
+     * @param pageNum 分页页码
+     * @param pageSize 分页大小
+     * @return 图集列表
+     */
+    Page<ImgCollection> getImgCollectionList(ImgCollection query, int pageNum, int pageSize);
+
 }

@@ -45,8 +45,12 @@ public class ImgCollectionController {
         return ResponseResult.success(imgCollectionService.deleteImgCollection(id));
     }
 
-
-    @GetMapping
+    /**
+     * 获取单个图集详细信息
+     * @param id
+     * @return
+     */
+    @GetMapping("/getInfo")
     public ResponseResult getImgCollectionInfo(@RequestParam long id) {
         return ResponseResult.success(imgCollectionService.getImgCollectionInfo(id));
     }

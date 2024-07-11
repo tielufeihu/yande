@@ -10,6 +10,7 @@
             <result property="cnName" column="cn_name" jdbcType="VARCHAR"/>
             <result property="imgCount" column="img_count" jdbcType="INTEGER"/>
             <result property="description" column="description" jdbcType="VARCHAR"/>
+            <result property="cover" column="cover" jdbcType="INTEGER"/>
             <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
             <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
             <result property="author" column="author" jdbcType="VARCHAR"/>
@@ -18,10 +19,8 @@
 
     <sql id="Base_Column_List">
         id,name,cn_name,
-        img_count,description,update_time,
-        create_time,author,creator_id
+        img_count,description,cover,
+        update_time,create_time,author,
+        creator_id
     </sql>
-
-
-
 </mapper>
