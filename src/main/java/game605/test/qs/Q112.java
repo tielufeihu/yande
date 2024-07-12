@@ -51,9 +51,8 @@ public class Q112 {
         Queue<TreeNodeDetail> queue = new LinkedList<>();
         queue.add(new TreeNodeDetail(root, root.val));
         while (!queue.isEmpty()){
-            TreeNodeDetail node = queue.poll();   // pop
-
-            if(node.treeNode.left == null && node.treeNode.right==null){  // 是叶子
+            TreeNodeDetail node = queue.poll();
+            if(node.treeNode.left == null && node.treeNode.right==null){
                 if(targetSum == node.sum)
                     return true;
             }
