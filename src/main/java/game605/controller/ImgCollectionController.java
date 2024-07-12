@@ -46,6 +46,14 @@ public class ImgCollectionController {
     }
 
     /**
+     * 查询列表
+     */
+    @GetMapping("/list")
+    public ResponseResult getImgCollectionList(@RequestParam int page, @RequestParam int sept) {
+        return ResponseResult.success(imgCollectionService.getImgCollectionList(null,page,sept));
+    }
+
+    /**
      * 获取单个图集详细信息
      * @param id
      * @return

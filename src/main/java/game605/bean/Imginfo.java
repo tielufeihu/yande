@@ -15,7 +15,7 @@ public class Imginfo {
     @TableId
     private int id;
     private String path;
-    private byte[] img;   //缩略图
+    private byte[] img;
 
     public void setNewIdAdd1(){
         String oldId = this.path;

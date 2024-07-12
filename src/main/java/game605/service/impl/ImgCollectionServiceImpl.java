@@ -45,10 +45,12 @@ public class ImgCollectionServiceImpl extends ServiceImpl<ImgCollectionMapper, I
         int ret = 0;
         // 先插入主表
         imgCollectionDTO.setCreateTime(new Date());
+        imgCollectionDTO.setImgCount(imgCollectionDTO.getImgList().size());
         ret += imgCollectionMapper.insert(imgCollectionDTO);
         // 设置子表内容
         for (ImgCollectionDetail imgCollectionDetail : imgCollectionDTO.getImgList()) {
             imgCollectionDetail.setCollectionId(imgCollectionDTO.getId());
+            imgCollectionDetail.setCreateTime(new Date());
         }
         // 插入子表
         imgCollectionDetailService.saveBatch(imgCollectionDTO.getImgList());
