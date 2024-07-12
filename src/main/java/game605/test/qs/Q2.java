@@ -15,16 +15,9 @@ public class Q2 {
         int flag = 0;
         while (l1 != null || l2 != null) {
             int num = (l1 != null ? l1.val : 0) + (l2 != null ? l2.val : 0) + flag;
-            if(num>=10){
-                flag = 1;
-            }else {
-                flag = 0;
-            }
-            if(dummy!=null){
-                dummy.val = num%10;
-            }else {
-                dummy = new ListNode(num%10);
-            }
+            if(num>=10) flag = 1;
+            else flag = 0;
+            dummy.val = num % 10;
             l1 = l1!=null?l1.next:null;
             l2 = l2!=null?l2.next:null;
             if(l1!=null || l2!=null){
@@ -35,6 +28,23 @@ public class Q2 {
         if(flag==1) dummy.next = new ListNode(1);
         return head;
     }
+
+    public ListNode addTwoNumbers2(ListNode l1, ListNode l2) {
+        ListNode sum = new ListNode();
+        ListNode head = sum;
+        int carry = 0;
+        while (l1 != null || l2 != null || carry != 0) {
+            int num = (l1 != null ? l1.val : 0) + (l2 != null ? l2.val : 0) + carry;
+            carry = num / 10;
+            sum.next = new ListNode(num % 10);
+            sum = sum.next;
+            l1 = l1 != null ? l1.next : null;
+            l2 = l2 != null ? l2.next : null;
+        }
+        return head.next;
+    }
+
+
 
 
 }
