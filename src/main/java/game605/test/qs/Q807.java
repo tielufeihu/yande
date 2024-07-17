@@ -38,4 +38,32 @@ public class Q807 {
         return ret;
     }
 
+
+    public int maxIncreaseKeepingSkyline2(int[][] grid){
+        int n = grid.length;
+        int[] xMax = new int[n];
+        int[] yMax = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if(xMax[i] < grid[i][j]){
+                    xMax[i] = grid[i][j];
+                }
+                if (yMax[j] < grid[i][j]) {
+                    yMax[j] = grid[i][j];
+                }
+            }
+        }
+
+        // 补全
+        int ret = 0;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                int t = (Math.min(xMax[i], yMax[j]) - grid[i][j]);
+                ret += Math.max(t, 0);
+            }
+        }
+        return ret;
+    }
+
 }
