@@ -1,7 +1,5 @@
 package game605.test.qs;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
+
 /**
  * 最小路径和
  * @version 0.1.0
