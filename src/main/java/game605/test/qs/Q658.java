@@ -14,13 +14,5 @@ import java.util.Arrays;
  */
 public class Q658 {
 
-    public List<Integer> findClosestElements(int[] arr, int k, int x) {
-        // 找到位置后，双指针扩展
-        int idx = Arrays.binarySearch(arr, x);
-        List<Integer> ret = new ArrayList<>();
-        ret.add(arr[idx]);
-        
-
-    }
 
 }
