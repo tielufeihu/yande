@@ -17,6 +17,12 @@ public class Q165 {
         // 点分
         List<String> v1s = Arrays.asList(version1.split("\\."));
         List<String> v2s = Arrays.asList(version2.split("\\."));
+        /**
+         * Arrays.asList转换出的ArrayList是Arrays里的内部静态类，
+         * 并非java.util包下的ArrayList，没有重写add方法
+         * .add时会调用其父类AbstractList的add方法
+         * 而AbstractList的add方法直接抛出一个UnsupportedOperationException异常
+         */
         v1s = new ArrayList<>(v1s);
         v2s = new ArrayList<>(v2s);
         // 补0
