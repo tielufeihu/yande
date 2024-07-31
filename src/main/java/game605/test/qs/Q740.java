@@ -58,4 +58,33 @@ public class Q740 {
         System.out.println(deleteAndEarn(new int[]{3,1}));
     }
 
+
+    /**
+     * 使用dp重做这一题
+     * @date 2024/7/30 17:40
+     */
+    public int deleteAndEarn2(int[] nums) {
+        // 处理这个数组
+        int[] counts = new int[10001];
+        int[] dp = new int[10001];
+        for (int num : nums) {
+             counts[num]++;
+        }
+        dp[1] = counts[1];
+        dp[2] = Math.max(dp[1], counts[2]*2);
+        for (int i = 2; i < counts.length; i++) {
+            dp[i] = Math.max(dp[i-1], dp[i-2] + counts[i]*i);
+        }
+        return dp[10000];
+    }
+
+
+
+
+
+
+
+
+
+
 }
