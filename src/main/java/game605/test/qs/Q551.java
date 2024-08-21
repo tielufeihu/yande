@@ -1,5 +1,8 @@
 package game605.test.qs;
 
+import java.util.HashMap;
+import java.util.HashSet;
+
 /**
  * @author Koyou
  * @version 1.0.0
@@ -10,6 +13,7 @@ package game605.test.qs;
 public class Q551 {
 
     public boolean checkRecord(String s) {
+        HashMap map = new HashMap<>();
         int a = 0;
         int l = 0;
         for (char c : s.toCharArray()) {
