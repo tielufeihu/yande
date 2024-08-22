@@ -12,7 +12,6 @@ public class NC6 {
     int ret = Integer.MIN_VALUE;
 
     public int maxPathSum (TreeNode root) {
-        // write code here
         if(root == null) {
             return 0;
         }
