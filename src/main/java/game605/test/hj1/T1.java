@@ -14,10 +14,10 @@ public class T1 {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         // 计数排序， 因为每个小区最多1000人
-        int[] arr = new int[1001]; // arr[i] 代表i个人的小区有几个
+        int[] arr = new int[1001];
         while (in.hasNext()) {
             int n = in.nextInt();
-            arr[n+1]++; // n个人小小区数量++
+            arr[n+1]++;
         }
         int ret = 0;
         for (int i = 1; i < 1001; i++) {
