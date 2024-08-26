@@ -14,7 +14,6 @@ import java.util.concurrent.locks.LockSupport;
 public class JUCT3 {
 
     public static void main(String[] args) {
-        AbstractQueuedSynchronizer
         Thread t1 = new Thread(()->{
 
             System.out.println("t1 start");
