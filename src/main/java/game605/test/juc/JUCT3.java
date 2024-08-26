@@ -1,6 +1,7 @@
 package game605.test.juc;
 
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.AbstractQueuedSynchronizer;
 import java.util.concurrent.locks.LockSupport;
 
 /**
@@ -13,7 +14,7 @@ import java.util.concurrent.locks.LockSupport;
 public class JUCT3 {
 
     public static void main(String[] args) {
-
+        AbstractQueuedSynchronizer
         Thread t1 = new Thread(()->{
 
             System.out.println("t1 start");
