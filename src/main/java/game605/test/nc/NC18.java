@@ -18,7 +18,6 @@ public class NC18 {
                 reverse[j][n - i - 1] = mat[i][j];
             }
         }
-        System.out.println(Arrays.deepToString(reverse));
         return reverse;
     }
 
