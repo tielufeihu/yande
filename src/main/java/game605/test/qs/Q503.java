@@ -13,6 +13,8 @@ import java.util.LinkedList;
  */
 public class Q503 {
 
+    public ThreadLocal<Integer> localInt = new ThreadLocal<>();
+
     // 先试暴力枚举
     public int[] nextGreaterElements(int[] nums) {
         int[] ret = new int[nums.length];
