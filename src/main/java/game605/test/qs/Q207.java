@@ -11,6 +11,16 @@ import java.util.*;
  * @since 0.1.0
  * @create 2023/10/24 15:53
  **/
+class Graph {
+    int id;
+    List<Graph> prevs;
+    Graph(int id) {
+        this.id = id;
+        prevs = new ArrayList<>();
+    }
+}
+
+
 public class Q207 {
 
     // dfs超时
@@ -59,13 +69,47 @@ public class Q207 {
         return false;
     }
 
-    @Test
-    public void t1(){
-        // numCourses =
-        //20
-        //prerequisites =
-        //[[0,10],[3,18],[5,5],[6,11],[11,14],[13,1],[15,1],[17,4]]
-        System.out.println(canFinish(18, new int[][]{{0,10},{3,18},{5,5},{6,11},{11,14},{13,1},{15,1},{17,4}}));
+    List<List<Integer>> edges;
+    int[] indeg;
+
+    public boolean canFinish2(int numCourses, int[][] prerequisites) {
+        edges = new ArrayList<>();
+        for (int i = 0; i < numCourses; ++i) {
+            edges.add(new ArrayList<>());
+        }
+        indeg = new int[numCourses];
+        for (int[] info : prerequisites) {
+            edges.get(info[1]).add(info[0]);
+            ++indeg[info[0]];
+        }
+
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 0; i < numCourses; ++i) {
+            if (indeg[i] == 0) {
+                queue.offer(i);
+            }
+        }
+
+        int visited = 0;
+        while (!queue.isEmpty()) {
+            ++visited;
+            int u = queue.poll();
+            for (int v: edges.get(u)) {
+                --indeg[v];
+                if (indeg[v] == 0) {
+                    queue.offer(v);
+                }
+            }
+        }
+
+        return visited == numCourses;
     }
+
+    public static void main(String[] args) {
+        int[][] prerequisites = {{2,0},{1,0},{3,1},{3,2},{1,3}};
+        System.out.println(new Q207().canFinish2(4, prerequisites));
+    }
+
+
 
 }
