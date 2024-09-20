@@ -1,7 +1,5 @@
 package game605.test.qs;
 
-import org.junit.Test;
-
 import java.util.*;
 
 /**
@@ -37,7 +35,7 @@ public class Q207 {
         Queue<List<Integer>> queue = new LinkedList<>();
         // 首先找到不需要前置课程的课
         for (Map.Entry<Integer, List<Integer>> e : coursesPrevMap.entrySet()) {
-            if(e.getValue().size() == 0){
+            if(e.getValue().isEmpty()){
                 // 这门课程不需要前置课
                 List<Integer> t = new ArrayList<>();
                 t.add(e.getKey());
