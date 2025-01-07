@@ -107,7 +107,7 @@ public class ImgInfoService {
         int sept = Integer.parseInt(ps[1]);
         boolean teenMode = false;
         if(teen.length != 0){
-            if(teen[0].equals("true"))
+            if("true".equals(teen[0]))
             {
                 teenMode = true;
             }
@@ -130,7 +130,7 @@ public class ImgInfoService {
             page = Integer.parseInt(ps[0]);
             sept = Integer.parseInt(ps[1]);
             if(teen.length != 0){
-                if(teen[0].equals("true"))
+                if("true".equals(teen[0]))
                 {
                     teenMode = true;
                 }
