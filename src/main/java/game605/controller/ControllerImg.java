@@ -6,7 +6,7 @@ import game605.service.impl.RedisImgTagService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import game605.bean.web.ResponseResult;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,33 +31,32 @@ public class ControllerImg {
 
     //根据id删除一个img
     @RequestMapping("/delImgInfo")
-    public int delImgInfo(@RequestParam int id){
-        return iis.delImgInfo(id);
+    public ResponseResult delImgInfo(@RequestParam int id){
+        return ResponseResult.success(iis.delImgInfo(id));
     }
 
 
     //添加一个img
     @Transactional
     @RequestMapping("/addImg")
-    public int addImg(@RequestParam MultipartFile img, @RequestParam String tagIds) throws Exception {
+    public ResponseResult addImg(@RequestParam MultipartFile img, @RequestParam String tagIds) throws Exception {
         if(Objects.equals(tagIds, "")){
-            return -1;
+            return ResponseResult.error(-1);
         }
         List<Integer> tagIdList = new ArrayList<>();
         String[] tagIds_str = tagIds.split(",");
         for (String tagId: tagIds_str) {
             tagIdList.add(Integer.valueOf(tagId));
         }
-        return iis.addImgInfo(img,tagIdList);
+        return ResponseResult.success(iis.addImgInfo(img,tagIdList));
     }
 
 
 
     //为一个图片添加一个tag
     @RequestMapping("/addTag")
-    public int addTag(@RequestParam int imgId, @RequestParam int tagId){
-        System.out.println("进入/addTag addTag 函数入口");
-        return its.addTagToImg(imgId,tagId);
+    public ResponseResult addTag(@RequestParam int imgId, @RequestParam int tagId){
+        return ResponseResult.success(its.addTagToImg(imgId,tagId));
     }
 
 

@@ -2,12 +2,11 @@ package game605.controller;
 
 import game605.bean.Imginfo;
 import game605.bean.Tag;
+import game605.bean.web.ResponseResult;
 import game605.service.IImgTagService;
 import game605.service.impl.ImgInfoService;
-import game605.service.impl.RedisImgTagService;
 import game605.service.impl.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,27 +28,30 @@ public class ControllerSearch {
 
     // 分页查询
     @RequestMapping("/img")
-    public List<Integer> searchImg(@RequestParam int page, @RequestParam int sept){
-        return iis.searchImgId(page,sept);
+    public ResponseResult searchImg(@RequestParam int page, @RequestParam int sept) {
+        List<Integer> list = iis.searchImgId(page, sept);
+        return ResponseResult.success(list);
     }
 
     // 分页查询 + 青少年模式
     @RequestMapping("/img/teen")
-    public List<Integer> getImgTeenMode(@RequestParam int page, @RequestParam int sept){
-        return iis.getTeenImg(page,sept);
+    public ResponseResult getImgTeenMode(@RequestParam int page, @RequestParam int sept) {
+        List<Integer> list = iis.getTeenImg(page, sept);
+        return ResponseResult.success(list);
     }
 
     // 根据 单tag 分页 查询 imginfo
     @RequestMapping("/imgFromTag")
-    public List<Imginfo> searchImgFromTag(@RequestParam String tagName, @RequestParam int page, @RequestParam int sept){
-
-        return iis.searchFromTag(tagName,page,sept);
+    public ResponseResult searchImgFromTag(@RequestParam String tagName, @RequestParam int page, @RequestParam int sept) {
+        List<Imginfo> list = iis.searchFromTag(tagName, page, sept);
+        return ResponseResult.success(list);
     }
 
-    // 根据 单tag 分页 查询 imginfo  青少年模式
+    // 根据 单tag 分页 查询 imginfo 青少年模式
     @RequestMapping("/imgFromTagTeen")
-    public List<Imginfo> searchImgFromTagTeen(@RequestParam String tagName, @RequestParam int page, @RequestParam int sept){
-        return iis.searchFromTagTeen(tagName,page,sept);
+    public ResponseResult searchImgFromTagTeen(@RequestParam String tagName, @RequestParam int page, @RequestParam int sept) {
+        List<Imginfo> list = iis.searchFromTagTeen(tagName, page, sept);
+        return ResponseResult.success(list);
     }
 
     /**
@@ -64,27 +66,29 @@ public class ControllerSearch {
      *  @return 符合要求的 imginfo list
      */
     @RequestMapping("/imgFromTags")
-    public List<Imginfo> searchImgFromTags(@RequestBody Map<String,String[]> params){
-        return iis.searchFromTags(params);
+    public ResponseResult searchImgFromTags(@RequestBody Map<String, String[]> params) {
+        List<Imginfo> list = iis.searchFromTags(params);
+        return ResponseResult.success(list);
     }
 
     // 根据 多tag 分页 查询 imgId（缩略图除外）
     @RequestMapping("/imgIdFromTags")
-    public List<Integer> searchInfoFromTags(@RequestBody Map<String,String[]> params){
-        return iis.searchIdFromTags(params);
+    public ResponseResult searchInfoFromTags(@RequestBody Map<String, String[]> params) {
+        List<Integer> list = iis.searchIdFromTags(params);
+        return ResponseResult.success(list);
     }
 
-    // search tag  tag列表
+    // search tag tag列表
     @RequestMapping("/tag")
-    public List<Tag> searchTag(@RequestParam String tagName){
-        return ts.searchTag(tagName);
+    public ResponseResult searchTag(@RequestParam String tagName) {
+        List<Tag> list = ts.searchTag(tagName);
+        return ResponseResult.success(list);
     }
 
-    //查找某个img的所有tag
+    // 查找某个img的所有tag
     @RequestMapping("/imgTags")
-    public List<Tag> searchImgTags(@RequestParam int imgId){
-        return its.getImgTagsFromId(imgId);
+    public ResponseResult searchImgTags(@RequestParam int imgId) {
+        List<Tag> list = its.getImgTagsFromId(imgId);
+        return ResponseResult.success(list);
     }
-
-
 }

@@ -1,9 +1,9 @@
 package game605.controller;
 
 import game605.bean.Role;
+import game605.bean.web.ResponseResult;
 import game605.service.impl.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,40 +17,45 @@ public class ControllerRole {
     RoleService rs;
 
     @RequestMapping("/add")
-    public int addRole(@RequestParam String roleName, @RequestParam int roleGrade){
+    public ResponseResult addRole(@RequestParam String roleName, @RequestParam int roleGrade) {
         Role role = new Role();
         role.setRoleName(roleName);
         role.setRoleGrade(roleGrade);
-        return rs.addRole(role);
+        int result = rs.addRole(role);
+        return ResponseResult.success(result);
     }
 
     @RequestMapping("/del")
-    public int delRole(@RequestParam int roleId){
-        return rs.removeRole(roleId);
+    public ResponseResult delRole(@RequestParam int roleId) {
+        int result = rs.removeRole(roleId);
+        return ResponseResult.success(result);
     }
 
     @RequestMapping("/update")
-    public int update(@RequestParam int roleId ,@RequestParam String roleName, @RequestParam int roleGrade){
+    public ResponseResult update(@RequestParam int roleId, @RequestParam String roleName, @RequestParam int roleGrade) {
         Role role = new Role();
         role.setRoleId(roleId);
         role.setRoleName(roleName);
         role.setRoleGrade(roleGrade);
-        return rs.updateRole(role);
+        int result = rs.updateRole(role);
+        return ResponseResult.success(result);
     }
 
     @RequestMapping("/list")
-    public List<Role> getList(){
-        return rs.getRoleList();
+    public ResponseResult getList() {
+        List<Role> list = rs.getRoleList();
+        return ResponseResult.success(list);
     }
 
     @RequestMapping("/search")
-    public Role searchRole(@RequestParam int id){
-        return rs.searchRole(id);
+    public ResponseResult searchRole(@RequestParam int id) {
+        Role role = rs.searchRole(id);
+        return ResponseResult.success(role);
     }
 
     @RequestMapping("/getInfo")
-    public Role getRole(@RequestParam int id){
-        return rs.searchRole(id);
+    public ResponseResult getRole(@RequestParam int id) {
+        Role role = rs.searchRole(id);
+        return ResponseResult.success(role);
     }
-
 }

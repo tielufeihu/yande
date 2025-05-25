@@ -2,20 +2,21 @@ package game605.controller;
 
 import game605.Application;
 import game605.bean.Tag;
+import game605.bean.web.ResponseResult;
 import game605.service.impl.ImgInfoService;
 import game605.service.impl.TagService;
 import game605.util.ImgUtil;
+import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
 @RequestMapping("/source")
-@CrossOrigin(origins = "*")   // 解决跨越
+@CrossOrigin(origins = "*")
 public class ControllerSource {
 
     private static Logger log = LoggerFactory.getLogger(Application.class);
@@ -26,35 +27,35 @@ public class ControllerSource {
     @Autowired
     TagService ts;
 
-
-    //根据id 返回该图片的blob数据图片 （大图）
+    // 返回图片原图二进制（不封装）
     @RequestMapping("/getBlobFromId")
-    public byte[] getBlobFromImgId(@RequestParam int id, HttpServletResponse response){
+    public byte[] getBlobFromImgId(@RequestParam int id, HttpServletResponse response) {
         String path = iis.getPathFromId(id);
         try {
             return ImgUtil.getImgByte(path);
-        }catch (Exception e){
-            log.error("id转byte[] 失败！ Exception：{}  ",e.toString());
+        } catch (Exception e) {
+            log.error("id转byte[] 失败！ Exception：{}  ", e.toString());
             return null;
         }
     }
 
-    // 获取文件 url
+    // 获取图片文件路径（封装）
     @RequestMapping("/getFilePath")
-    public String getImgFileUrl(@RequestParam int id){
-        return iis.getPathFromId(id);
+    public ResponseResult getImgFileUrl(@RequestParam int id) {
+        String path = iis.getPathFromId(id);
+        return ResponseResult.success(path);
     }
 
-    // 根据id 获取缩略图
+    // 返回缩略图二进制（不封装）
     @RequestMapping("/getSmallImg")
-    public byte[] getSmallBlobFromImgId(@RequestParam int id){
+    public byte[] getSmallBlobFromImgId(@RequestParam int id) {
         return iis.getSmallImgFromId(id);
     }
 
-    //获取tag列表 根据tagcount大小降序排列
+    // 获取热门 tag 列表（封装）
     @RequestMapping("/getTagList")
-    public List<Tag> getTagList(@RequestParam int page, @RequestParam int step){
-        return ts.getTagsPageOrderCount(page,step);
+    public ResponseResult getTagList(@RequestParam int page, @RequestParam int step) {
+        List<Tag> tags = ts.getTagsPageOrderCount(page, step);
+        return ResponseResult.success(tags);
     }
-
 }
