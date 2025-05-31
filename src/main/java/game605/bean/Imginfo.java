@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -13,14 +15,13 @@ import lombok.NoArgsConstructor;
 public class Imginfo {
 
     @TableId
-    private int id;
+    private Integer id;
     private String path;
     private byte[] img;
 
-    public void setNewIdAdd1(){
-        String oldId = this.path;
-        String newId = String.valueOf(Integer.parseInt(oldId)+1);
-        this.path = newId;
-    }
+    /**
+     * vo
+     */
+    private List<ImgTag> imgTags;
 
 }

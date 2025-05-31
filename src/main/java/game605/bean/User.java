@@ -15,9 +15,9 @@ import lombok.ToString;
 public class User {
 
     @TableId
-    private int account;
+    private Integer account;
     private String password;
     private String name;
-    private int roleId;
+    private Integer roleId;
 
 }

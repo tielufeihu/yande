@@ -10,4 +10,8 @@ import org.springframework.stereotype.Repository;
 @Mapper
 public interface ImginfoMapper  extends BaseMapper<Imginfo> {
 
+    void insertImginfoSeq();
+
+    Integer getNextImginfoId();
+
 }

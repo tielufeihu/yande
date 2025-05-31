@@ -36,6 +36,12 @@ public class TagService extends ServiceImpl<TagMapper, Tag> {
         return tm.selectList(queryWrapper);
     }
 
+    // 更新
+    public int updateTag(Tag tag){
+        return tm.updateById(tag);
+    }
+
+
     // 模糊搜索tag
     public List<Tag> searchTag(String tagNameOrCnName){
         //System.out.println("--tagNameOrCnName--" + tagNameOrCnName);
@@ -88,6 +94,5 @@ public class TagService extends ServiceImpl<TagMapper, Tag> {
         return tm.deleteById(id);
     }
 
-    // tag 自减
 
 }

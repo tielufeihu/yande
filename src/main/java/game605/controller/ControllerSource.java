@@ -28,7 +28,7 @@ public class ControllerSource {
     TagService ts;
 
     // 返回图片原图二进制（不封装）
-    @RequestMapping("/getBlobFromId")
+    @GetMapping("/getBlobFromId")
     public byte[] getBlobFromImgId(@RequestParam int id, HttpServletResponse response) {
         String path = iis.getPathFromId(id);
         try {
@@ -40,20 +40,20 @@ public class ControllerSource {
     }
 
     // 获取图片文件路径（封装）
-    @RequestMapping("/getFilePath")
+    @GetMapping("/getFilePath")
     public ResponseResult getImgFileUrl(@RequestParam int id) {
         String path = iis.getPathFromId(id);
         return ResponseResult.success(path);
     }
 
     // 返回缩略图二进制（不封装）
-    @RequestMapping("/getSmallImg")
+    @GetMapping("/getSmallImg")
     public byte[] getSmallBlobFromImgId(@RequestParam int id) {
         return iis.getSmallImgFromId(id);
     }
 
     // 获取热门 tag 列表（封装）
-    @RequestMapping("/getTagList")
+    @GetMapping("/getTagList")
     public ResponseResult getTagList(@RequestParam int page, @RequestParam int step) {
         List<Tag> tags = ts.getTagsPageOrderCount(page, step);
         return ResponseResult.success(tags);

@@ -138,7 +138,6 @@ public class RedisService {
 
     public int addImgTag(int imgId, int tagId){
         Jedis jedis = RedisUtil.getRedisConn();
-
         jedis.sadd(ByteUtil.intToBytes(tagId), ByteUtil.intToBytes(imgId));
         byte[] toRedisKey = (tagId+"c").getBytes();
         jedis.del(toRedisKey);  // 清除旧的缓存

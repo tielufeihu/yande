@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 public class Role {
 
     @TableId
-    private int roleId;
+    private Integer roleId;
     private String roleName;
-    private int roleGrade;
+    private Integer roleGrade;
 
 }

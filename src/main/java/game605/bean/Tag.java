@@ -12,12 +12,12 @@ import lombok.NoArgsConstructor;
 public class Tag implements Comparable<Tag>{
 
     @TableId
-    private int id;
+    private Integer id;
     private String name;
     private String message;
     private String cnName;
     private String clazz;
-    private int imgCount;
+    private Integer imgCount;
 
     // 重构比较器
     @Override

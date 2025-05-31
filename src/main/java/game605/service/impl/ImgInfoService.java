@@ -6,6 +6,7 @@ import game605.Application;
 import game605.bean.ImgTag;
 import game605.bean.Imginfo;
 import game605.bean.Tag;
+import game605.bean.vo.ImgSearchVO;
 import game605.mapper.ImgTagMapper;
 import game605.mapper.ImginfoMapper;
 import game605.mapper.TagMapper;
@@ -91,60 +92,32 @@ public class ImgInfoService {
     }
 
     // 查询图片 for 多个tag  ok
-    public List<Imginfo> searchFromTags(Map<String,String[]> params){
+    public List<Imginfo> searchFromTags(ImgSearchVO params){
         // 方法1 先读取单tag 然后再查询
-        String[] tagNames = params.get("tags");
-        String[] ps = params.get("page");
-        String[] teen = params.get("teen");
-
-        // 安全性验证
-        if(tagNames.length < 1 && ps.length != 2)
-        {
-            log.warn("多tag查询时 参数不合法！ 参数：{}",params);
-            return null;
+        List<Integer> tagIds = params.getTagIds();
+        int pageNum = params.getPageNum();
+        int pageSize = params.getPageSize();
+        boolean teenMode = params.isTeenMode();
+        List<Integer> imgIdList = its.getImgsIdFromTags(tagIds,pageNum,pageSize);
+        if(teenMode){
+            imgIdList = teenFilter(imgIdList);
         }
-        int page = Integer.parseInt(ps[0]);
-        int sept = Integer.parseInt(ps[1]);
-        boolean teenMode = false;
-        if(teen.length != 0){
-            if("true".equals(teen[0]))
-            {
-                teenMode = true;
-            }
-        }
-        List<Integer> imgIdList = its.getImgsIdFromTags(tagNames,page,sept);
         List<Imginfo> res = iim.selectBatchIds(imgIdList);
         return res;
     }
 
-    public List<Integer> searchIdFromTags(Map<String,String[]> params){
+    public List<Integer> searchIdFromTags(ImgSearchVO params){
         // 方法1 先读取单tag 然后再查询
-        String[] tagNames = params.get("tags");
-        String[] ps = params.get("page");
-        String[] teen = params.get("teen");
-        int page;
-        int sept;
-        boolean teenMode = false;
-
-        try{
-            page = Integer.parseInt(ps[0]);
-            sept = Integer.parseInt(ps[1]);
-            if(teen.length != 0){
-                if("true".equals(teen[0]))
-                {
-                    teenMode = true;
-                }
-            }
-        }catch (Exception e){
-            log.error("页面数据不合法！ ps:{}", (Object) ps);
-            return null;
-        }
+        List<Integer> tagIds = params.getTagIds();
+        int pageNum = params.getPageNum();
+        int pageSize = params.getPageSize();
+        boolean teenMode = params.isTeenMode();
         List<Integer> imgIdList = null;
-        if(tagNames.length == 0 && ps.length == 2)
+        if(tagIds.isEmpty())
         {
-            imgIdList = searchImgId(page,sept);
+            imgIdList = searchImgId(pageNum,pageSize);
         }else {
-            imgIdList = its.getImgsIdFromTags(tagNames,page,sept);
+            imgIdList = its.getImgsIdFromTags(tagIds,pageNum,pageSize);
         }
         if(teenMode){
             imgIdList = teenFilter(imgIdList);
@@ -202,7 +175,7 @@ public class ImgInfoService {
 
     //添加img
     @Transactional
-    public int addImgInfo(MultipartFile imgFile, List<Integer> tagIds) throws Exception {
+    public int addImgInfo(MultipartFile imgFile) throws Exception {
         byte[] small_img = null;
         int re = 1;
         //获取文件名
@@ -229,10 +202,8 @@ public class ImgInfoService {
         // 1.设置id（先获取 最新id的 ）
         Imginfo imginfo30 = iim.selectById(30);
         // 加上30的前缀
-        int new30id = Integer.parseInt(imginfo30.getPath());
-        new30id = Integer.parseInt("30" + String.valueOf(new30id));
-        imginfo30.setNewIdAdd1();  //自增1
-        re*=iim.updateById(imginfo30);  //保存数据库
+        iim.insertImginfoSeq();
+        int new30id = iim.getNextImginfoId();
         imginfo.setId(new30id);
         // 2.设置 路径
         imginfo.setPath(fileNameAdd);
@@ -241,15 +212,15 @@ public class ImgInfoService {
         // 4.存数据库
         iim.insert(imginfo);
         // 插入 ImgTag
-        for (int tagId: tagIds) {
-            re*=itm.insert(new ImgTag(new30id,tagId));
-            rs.addImgTag(new30id,tagId);
-            // tag_count ++
-            UpdateWrapper<Tag> wrapper = new UpdateWrapper<Tag>();
-            wrapper.eq("id",tagId);
-            wrapper.setSql("`img_count` = `img_count` + 1");  // mybatis-plus 实现字段的自增
-            re*=tm.update(null,wrapper);
-        }
+        // for (int tagId: tagIds) {
+        //     re*=itm.insert(new ImgTag(new30id,tagId));
+        //     rs.addImgTag(new30id,tagId);
+        //     // tag_count ++
+        //     UpdateWrapper<Tag> wrapper = new UpdateWrapper<Tag>();
+        //     wrapper.eq("id",tagId);
+        //     wrapper.setSql("`img_count` = `img_count` + 1");  // mybatis-plus 实现字段的自增
+        //     re*=tm.update(null,wrapper);
+        // }
         // 插入上传者信息 imgTag
         re*=itm.insert(new ImgTag(new30id,133504));  //我的上传tag id
         rs.addImgTag(new30id,133504);

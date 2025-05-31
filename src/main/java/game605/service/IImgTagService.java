@@ -48,19 +48,17 @@ public interface IImgTagService {
 
     /**
      * 查询 具有多个 tag的 imgId
-     * @param tags tag列表
+     * @param tagIds tag列表
      * @param page 页号
      * @param sept 步长
      * @return
      */
-    public List<Integer> getImgsIdFromTags(String[] tags,int page,int sept);
+    public List<Integer> getImgsIdFromTags(List<Integer> tagIds, int page,int sept);
 
     /**
      * 为图片添加一个tag
-     * @param imgId
-     * @param tagId
      * @return
      */
-    public int addTagToImg(int imgId, int tagId);
+    public int addTagToImg(Imginfo img);
 
 }

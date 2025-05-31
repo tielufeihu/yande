@@ -16,42 +16,21 @@ public class ControllerTag {
     @Autowired
     TagService ts;
 
-    @Autowired
-    IImgTagService its;
 
     // 设置 tag 属性信息（封装）
     @Transactional
-    @RequestMapping("/set")
-    public ResponseResult setClass(
-            @RequestParam String tagName,
-            @RequestParam String cnName,
-            @RequestParam String clazz,
-            @RequestParam String message
-    ) {
-        int re = 1;
-        int tag_id = ts.getIdFromName(tagName);
-        re *= ts.setTagCnNameFromId(tag_id, cnName);
-        re *= ts.setTagClazzFromId(tag_id, clazz);
-        re *= ts.setTagMessageFromId(tag_id, message);
-        return ResponseResult.success(re);
+    @PostMapping("/update")
+    public ResponseResult updateTag(@RequestBody Tag tag) {
+        return ResponseResult.success(ts.updateTag(tag));
     }
 
     // 新增 Tag（封装）
     @Transactional
-    @RequestMapping("/add")
-    public ResponseResult addTag(
-            @RequestParam String name,
-            @RequestParam String cnName,
-            @RequestParam String clazz,
-            @RequestParam String message
-    ) {
-        Tag tag = new Tag();
-        tag.setImgCount(0);
-        tag.setCnName(cnName);
-        tag.setClazz(clazz);
-        tag.setMessage(message);
-        tag.setName(name);
+    @PostMapping("/add")
+    public ResponseResult addTag(@RequestBody Tag tag) {
         int result = ts.addTag(tag);
         return ResponseResult.success(result);
     }
+
+
 }

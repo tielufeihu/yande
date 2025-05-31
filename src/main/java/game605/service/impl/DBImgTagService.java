@@ -3,7 +3,9 @@ package game605.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import game605.bean.ImgTag;
+import game605.bean.Imginfo;
 import game605.bean.Tag;
+import game605.constants.CommonConstant;
 import game605.mapper.ImgTagMapper;
 import game605.mapper.ImginfoMapper;
 import game605.mapper.TagMapper;
@@ -85,12 +87,12 @@ public class DBImgTagService implements IImgTagService {
 
 
     @Override
-    public List<Integer> getImgsIdFromTags(String[] tags, int page, int sept){
+    public List<Integer> getImgsIdFromTags(List<Integer> tagIds, int page, int sept){
         QueryWrapper<ImgTag> queryWrapper = new QueryWrapper<>();
         //SELECT img_id FROM img_tag WHERE tag_id IN (82, 196) GROUP BY img_id HAVING COUNT(*) = 2
         StringBuilder insql = new StringBuilder();
-        for (String tag:tags) {
-            insql.append(ts.getIdFromName(tag));
+        for (Integer tagId:tagIds) {
+            insql.append(tagId);
             insql.append(",");
         }
         insql.deleteCharAt(insql.length()-1);
@@ -98,7 +100,7 @@ public class DBImgTagService implements IImgTagService {
                 .select("img_id")
                 .orderByDesc("img_id")
                 .groupBy("img_id")
-                .having("COUNT(*) = " + tags.length)
+                .having("COUNT(*) = " + tagIds.size())
                  // "82, 196"
                 .inSql("tag_id",insql.toString())
                 .last("Limit " + (page-1)*sept + ", " + sept);
@@ -113,18 +115,19 @@ public class DBImgTagService implements IImgTagService {
 
     @Override
     @Transactional
-    public int addTagToImg(int imgId, int tagId){
-        int re = 1;
-        ImgTag imgTag = new ImgTag();
-        imgTag.setImgId(imgId);
-        imgTag.setTagId(tagId);
-        UpdateWrapper<Tag> wrapper = new UpdateWrapper<Tag>();
-        wrapper.eq("id",tagId);
-        // mybatis-plus 实现字段的自增
-        wrapper.setSql("`img_count` = `img_count` + 1");
-        re*=tm.update(null,wrapper);
-        re*=itm.insert(imgTag);
-        return re;
+    public int addTagToImg(Imginfo img){
+        Integer imgId = img.getId();
+        List<ImgTag> imgTags = img.getImgTags();
+        for (ImgTag t: imgTags) {
+            t.setImgId(imgId);
+            UpdateWrapper<Tag> wrapper = new UpdateWrapper<Tag>();
+            wrapper.eq("id",t.getTagId());
+            // mybatis-plus 实现字段的自增
+            wrapper.setSql("`img_count` = `img_count` + 1");
+            tm.update(null,wrapper);
+            itm.insert(t);
+        }
+        return CommonConstant.SUCCESS;
     }
 
 }

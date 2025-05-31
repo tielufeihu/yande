@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @TableName("img_tag")
 public class ImgTag
 {
-    private int imgId;
-    private int tagId;
+    private Integer imgId;
+    private Integer tagId;
 
 }

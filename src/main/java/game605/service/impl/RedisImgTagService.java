@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import game605.bean.ImgTag;
 import game605.bean.Imginfo;
 import game605.bean.Tag;
+import game605.constants.CommonConstant;
 import game605.mapper.ImgTagMapper;
 import game605.mapper.ImginfoMapper;
 import game605.mapper.TagMapper;
@@ -64,9 +65,9 @@ public class RedisImgTagService implements IImgTagService {
 
 
     @Override
-    public List<Integer> getImgsIdFromTags(String[] tags, int page, int sept){
+    public List<Integer> getImgsIdFromTags(List<Integer> tagIds, int page, int sept){
         // 判断tag是否长度为1
-        if(tags.length == 0){
+        if(tagIds.isEmpty()){
             List<Integer> resList = new ArrayList<>();
             QueryWrapper<Imginfo> queryWrapper = new QueryWrapper<>();
             queryWrapper.select("id").orderByDesc("id").last("Limit " + (page-1)*sept + ", " + sept);
@@ -76,36 +77,33 @@ public class RedisImgTagService implements IImgTagService {
             }
             return resList;
         }
-        else if (tags.length == 1){
-            int tagId = ts.getIdFromName(tags[0]);
+        else if (tagIds.size() == 1){
+            int tagId = tagIds.getFirst();
             return rs.getImgsIdFromTag(tagId,page,sept);
         }
         else{
-            List<Integer> tagIdList = new ArrayList<>();
-            for (String tagName: tags) {
-                tagIdList.add(ts.getIdFromName(tagName));
-            }
-            return rs.getImgsIdFromTags(tagIdList,page,sept);
+            return rs.getImgsIdFromTags(tagIds,page,sept);
         }
     }
 
 
     @Override
     @Transactional
-    public int addTagToImg(int imgId, int tagId){
-        // 加入到redis缓存
-        rs.addImgTag(imgId,tagId);
-        int re = 1;
-        ImgTag imgTag = new ImgTag();
-        imgTag.setImgId(imgId);
-        imgTag.setTagId(tagId);
-        UpdateWrapper<Tag> wrapper = new UpdateWrapper<Tag>();
-        wrapper.eq("id",tagId);
-        // mybatis-plus 实现字段的自增
-        wrapper.setSql("`img_count` = `img_count` + 1");
-        re*=tm.update(null,wrapper);
-        re*=itm.insert(imgTag);
-        return re;
+    public int addTagToImg(Imginfo img){
+        Integer imgId = img.getId();
+        List<ImgTag> tagList = img.getImgTags();
+        for (ImgTag imgTag : tagList) {
+            // 加入到redis缓存
+            rs.addImgTag(imgId,imgTag.getTagId());
+            imgTag.setImgId(imgId);
+            UpdateWrapper<Tag> wrapper = new UpdateWrapper<>();
+            wrapper.eq("id",imgTag.getTagId());
+            // mybatis-plus 实现字段的自增
+            wrapper.setSql("`img_count` = `img_count` + 1");
+            tm.update(null,wrapper);
+            itm.insert(imgTag);
+        }
+        return CommonConstant.SUCCESS;
     }
 
 }
