@@ -4,14 +4,13 @@ import game605.bean.User;
 import game605.bean.web.ResponseResult;
 import game605.service.impl.TokenService;
 import game605.service.impl.UserService;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
 @CrossOrigin(origins = "*")
-public class ControllerUser {
+public class UserController {
 
     @Autowired
     UserService us;
@@ -20,9 +19,9 @@ public class ControllerUser {
     TokenService ts;
 
     // 登录：成功返回 token，失败返回带 msg 的 error 响应
-    @RequestMapping("/login")
-    public ResponseResult login(@RequestParam int account, @RequestParam String password) {
-        Long token = us.login(account, password);
+    @PostMapping("/login")
+    public ResponseResult login(@RequestBody User user) {
+        Long token = us.login(user.getAccount(), user.getPassword());
         if (token.equals(-2L)) {
             return new ResponseResult(412, "用户不存在");
         }

@@ -4,7 +4,6 @@ import game605.bean.TagClazz;
 import game605.bean.web.ResponseResult;
 import game605.service.TagClazzService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/tagClazz")
 
-public class ControllerTagClazz {
+public class TagClazzController {
 
     @Autowired
     private TagClazzService tagClazzService;

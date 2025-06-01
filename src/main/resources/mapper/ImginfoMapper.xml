@@ -4,12 +4,22 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="game605.mapper.ImginfoMapper">
 
+    <sql id="fields">
+        id,path,img
+    </sql>
+
     <insert id="insertImginfoSeq">
         INSERT INTO imginfo_sequence VALUES (NULL)
     </insert>
 
     <select id="getNextImginfoId" resultType="java.lang.Integer">
         SELECT LAST_INSERT_ID()
+    </select>
+    <select id="getImginfoByIds" resultType="game605.bean.Imginfo">
+        SELECT id,path FROM imginfo WHERE id IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
     </select>
 
 </mapper>

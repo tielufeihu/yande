@@ -2,7 +2,6 @@ package game605.controller;
 
 import game605.bean.Tag;
 import game605.bean.web.ResponseResult;
-import game605.service.IImgTagService;
 import game605.service.impl.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/tag")
 @CrossOrigin(origins = "*")
-public class ControllerTag {
+public class TagController {
 
     @Autowired
     TagService ts;

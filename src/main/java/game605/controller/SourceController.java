@@ -17,7 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/source")
 @CrossOrigin(origins = "*")
-public class ControllerSource {
+public class SourceController {
 
     private static Logger log = LoggerFactory.getLogger(Application.class);
 

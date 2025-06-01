@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/img")
 @CrossOrigin(origins = "*")   // 解决跨越
-public class ControllerImg {
+public class ImgController {
 
     private static Logger log = LoggerFactory.getLogger(Application.class);
 
@@ -27,12 +27,10 @@ public class ControllerImg {
 
     /**
      * 根据id删除一个img
-     * @param id
-     * @return
      */
     @PostMapping("/delete")
-    public ResponseResult deleteImgInfo(@RequestBody int id) {
-        return ResponseResult.success(iis.delImgInfo(id));
+    public ResponseResult deleteImgInfo(@RequestBody Imginfo imginfo) {
+        return ResponseResult.success(iis.delImgInfo(imginfo.getId()));
     }
 
 
@@ -49,7 +47,7 @@ public class ControllerImg {
 
 
     /**
-     * 为一个图片添加一个tag
+     * 更新图片信息
      * @param img
      * @return
      */

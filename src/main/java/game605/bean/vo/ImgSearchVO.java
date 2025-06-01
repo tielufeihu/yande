@@ -15,16 +15,20 @@ import java.util.List;
 public class ImgSearchVO {
 
     /**
-     * {
-     *     "tags": ["tag1","tag2","tag3","tag4","tag5","tag6","tag7","tags8"],
-     *     "page":[1,100],
-     *     "teen": [true or false]
-     *  }
+     * 图片标签IDs
      */
-
     private List<Integer> tagIds;
+    /**
+     * 是否开启青少年模式
+     */
     private boolean teenMode;
+    /**
+     * 当前页码
+     */
     private int pageNum;
+    /**
+     * 每页显示数量
+     */
     private int pageSize;
 
 }
