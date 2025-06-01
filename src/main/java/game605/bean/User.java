@@ -7,6 +7,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+/**
+ * 用户
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

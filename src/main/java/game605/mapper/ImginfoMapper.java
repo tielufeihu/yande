@@ -18,4 +18,6 @@ public interface ImginfoMapper  extends BaseMapper<Imginfo> {
 
     List<Imginfo> getImginfoByIds(List<Integer> ids);
 
+    Imginfo getImginfoById(Integer id);
+
 }

@@ -45,7 +45,7 @@ public class ImgCommentServiceImpl extends ServiceImpl<ImgCommentMapper, ImgComm
     }
 
     @Override
-    public List<ImgCommentVO> getImgCommentList(Long imgId) {
+    public List<ImgCommentVO> getImgCommentList(Integer imgId) {
         // 先全部查询出来再处理
         List<ImgCommentVO> all = imgCommentMapper
                 .selectList(new QueryWrapper<ImgComment>()

@@ -2,6 +2,11 @@ package game605.bean;
 
 import lombok.Data;
 
+
+/**
+ * @ClassName Auth
+ * @Description 权限
+ */
 @Data
 public class Auth {
 

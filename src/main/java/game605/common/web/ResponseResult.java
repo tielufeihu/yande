@@ -48,12 +48,17 @@ public class ResponseResult {
         return new ResponseResult(200, "success", code);
     }
 
-    public static ResponseResult error(Object o) {
-        return new ResponseResult(500, "error", o);
+    public static ResponseResult error(Object data) {
+        return new ResponseResult(500, "error", data);
     }
 
     public static ResponseResult error(int code)  {
         return new ResponseResult(500, "error", code);
+    }
+
+
+    public static ResponseResult error(Object data, String msg)  {
+        return new ResponseResult(500, msg, data);
     }
 
 

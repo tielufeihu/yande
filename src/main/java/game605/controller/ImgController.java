@@ -18,6 +18,8 @@ public class ImgController {
 
     private static Logger log = LoggerFactory.getLogger(Application.class);
 
+
+
     @Autowired
     ImgInfoService iis;
 
@@ -54,6 +56,15 @@ public class ImgController {
     @PostMapping("/update")
     public ResponseResult updateImg(@RequestBody Imginfo img){
         return ResponseResult.success(its.addTagToImg(img));
+    }
+
+
+    /**
+     * 获取图片详情
+     */
+    @GetMapping("/detail")
+    public ResponseResult getImgDetail(@RequestParam Integer imgId) {
+        return ResponseResult.success(iis.getImgInfo(imgId));
     }
 
 

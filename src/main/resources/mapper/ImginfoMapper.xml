@@ -5,7 +5,8 @@
 <mapper namespace="game605.mapper.ImginfoMapper">
 
     <sql id="fields">
-        id,path,img
+        SELECT id,path,img,size,title,author_id,author_name,width,height,hide,create_date,update_date,created_by,updated_by,remark
+        FROM imginfo
     </sql>
 
     <insert id="insertImginfoSeq">
@@ -16,10 +17,16 @@
         SELECT LAST_INSERT_ID()
     </select>
     <select id="getImginfoByIds" resultType="game605.bean.Imginfo">
-        SELECT id,path FROM imginfo WHERE id IN
+        <include refid="fields"/>
+         WHERE id IN
         <foreach collection="ids" item="id" open="(" separator="," close=")">
             #{id}
         </foreach>
+    </select>
+
+    <select id="getImginfoById" resultType="game605.bean.Imginfo">
+        <include refid="fields"/>
+         WHERE id = #{id}
     </select>
 
 </mapper>

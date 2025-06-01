@@ -30,8 +30,12 @@ import java.util.*;
 public class ImgInfoService {
 
     private static Logger log = LoggerFactory.getLogger(Application.class);
+
     @Value("${file-path.upload-save-path}")
     public String savePath;
+
+    private static final String getFullImgUrl = "/source/getBlobFromId";
+
 
     @Autowired
     ImginfoMapper iim;
@@ -50,11 +54,6 @@ public class ImgInfoService {
 
     @Autowired
     RedisService rs;
-
-    // 查询图片 from id
-    public Imginfo searchFromId(String id){
-        return iim.selectById(id);
-    }
 
 
     // 分页查询图片
@@ -75,21 +74,6 @@ public class ImgInfoService {
         return idlist;
     }
 
-    // 查询图片 from 单个tag   success
-    public List<Imginfo> searchFromTag(String tagName,int page,int step){
-        int tagId = ts.getIdFromName(tagName);
-        List<Integer> imgIdList = its.getImgsIdFromTag(tagId, page, step);
-        List<Imginfo> res = iim.selectBatchIds(imgIdList);
-        return res;
-    }
-
-    // 查询图片 from 单个tag  teen   success
-    public List<Imginfo> searchFromTagTeen(String tagName,int page,int step){
-        int tagId = ts.getIdFromName(tagName);
-        List<Integer> imgIdList = its.getImgsIdFromTag(tagId, page, step);
-        List<Imginfo> res = iim.selectBatchIds(teenFilter(imgIdList));
-        return res;
-    }
 
     // 查询图片 for 多个tag  ok
     public List<Imginfo> searchFromTags(ImgSearchVO params){
@@ -233,17 +217,6 @@ public class ImgInfoService {
         return re;
     }
 
-    public List<Integer> getTeenImg(int page, int step) {
-        QueryWrapper<Imginfo> queryWrapper = new QueryWrapper<>();
-        queryWrapper.select("id").orderByDesc("id").last("Limit " + (page-1)*step + ", " + step);
-        List<Imginfo> list = iim.selectList(queryWrapper);
-        List<Integer> rel = new ArrayList<>();
-        for (Imginfo i: list) {
-            rel.add(i.getId());
-        }
-        return teenFilter(rel);
-    }
-
     public List<Integer> teenFilter(List<Integer> idList){
         List<Integer> reList = new ArrayList<>();
         for (int imgId: idList) {
@@ -263,4 +236,20 @@ public class ImgInfoService {
         }
         return reList;
     }
+
+
+    /**
+     * 查询图片详情
+     * @param imgId
+     * @return
+     */
+    public Imginfo getImgInfo(int imgId) {
+        Imginfo img = iim.getImginfoById(imgId);
+        List<ImgTag> imgTags = itm.selectList(new QueryWrapper<ImgTag>().eq("img_id",imgId));
+        img.setImgTags(imgTags);
+        img.setFullImgPath(getFullImgUrl + "?imgId=" + imgId);
+        return iim.selectById(imgId);
+    }
+
+
 }

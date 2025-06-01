@@ -5,6 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
+/**
+ * 标签
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,6 +22,11 @@ public class Tag implements Comparable<Tag>{
     private String cnName;
     private String clazz;
     private Integer imgCount;
+
+    /**
+     * query
+     */
+    private String tagName;
 
     // 重构比较器
     @Override

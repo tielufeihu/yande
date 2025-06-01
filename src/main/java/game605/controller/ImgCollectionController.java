@@ -21,8 +21,6 @@ public class ImgCollectionController {
     @Autowired
     private ImgCollectionService imgCollectionService;
 
-    @Autowired
-    private ImgCollectionDetailService imgCollectionDetailService;
 
     /**
      * 添加图集
@@ -48,8 +46,8 @@ public class ImgCollectionController {
      * 查询列表
      */
     @GetMapping("/list")
-    public ResponseResult getImgCollectionList(@RequestParam int page, @RequestParam int sept) {
-        return ResponseResult.success(imgCollectionService.getImgCollectionList(null,page,sept));
+    public ResponseResult getImgCollectionList(@RequestParam int pageNum, @RequestParam int pageSize) {
+        return ResponseResult.success(imgCollectionService.getImgCollectionList(null,pageNum,pageSize));
     }
 
     /**

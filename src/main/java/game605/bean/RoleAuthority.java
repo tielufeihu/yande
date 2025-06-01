@@ -5,6 +5,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+
+/**
+ * 角色权限关联类
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

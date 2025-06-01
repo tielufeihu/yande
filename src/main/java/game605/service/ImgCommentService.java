@@ -32,5 +32,5 @@ public interface ImgCommentService extends IService<ImgComment> {
      * @param imgId
      * @return
      */
-    List<ImgCommentVO> getImgCommentList(Long imgId);
+    List<ImgCommentVO> getImgCommentList(Integer imgId);
 }

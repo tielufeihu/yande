@@ -24,38 +24,36 @@ public class SourceController {
     @Autowired
     ImgInfoService iis;
 
-    @Autowired
-    TagService ts;
 
-    // 返回图片原图二进制（不封装）
+
+    /**
+     * 返回图片原图二进制
+     * @param imgId
+     * @return
+     */
     @GetMapping("/getBlobFromId")
-    public byte[] getBlobFromImgId(@RequestParam int id, HttpServletResponse response) {
-        String path = iis.getPathFromId(id);
+    public ResponseResult getBlobFromImgId(@RequestParam int imgId) {
+        String path = iis.getPathFromId(imgId);
         try {
-            return ImgUtil.getImgByte(path);
+            return ResponseResult.success(ImgUtil.getImgByte(path));
         } catch (Exception e) {
             log.error("id转byte[] 失败！ Exception：{}  ", e.toString());
-            return null;
+            return ResponseResult.error(null, "图片获取失败！");
         }
     }
 
-    // 获取图片文件路径（封装）
-    @GetMapping("/getFilePath")
-    public ResponseResult getImgFileUrl(@RequestParam int id) {
-        String path = iis.getPathFromId(id);
-        return ResponseResult.success(path);
-    }
 
-    // 返回缩略图二进制（不封装）
+    /**
+     * 返回缩略图二进制
+     * @param imgId
+     * @return
+     */
     @GetMapping("/getSmallImg")
-    public byte[] getSmallBlobFromImgId(@RequestParam int id) {
-        return iis.getSmallImgFromId(id);
+    public ResponseResult getSmallBlobFromImgId(@RequestParam int imgId) {
+        return ResponseResult.success(iis.getSmallImgFromId(imgId));
     }
 
-    // 获取热门 tag 列表（封装）
-    @GetMapping("/getTagList")
-    public ResponseResult getTagList(@RequestParam int page, @RequestParam int step) {
-        List<Tag> tags = ts.getTagsPageOrderCount(page, step);
-        return ResponseResult.success(tags);
-    }
+
+
+
 }

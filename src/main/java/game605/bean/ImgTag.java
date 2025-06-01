@@ -5,6 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
+/**
+ * 图片标签关联类
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

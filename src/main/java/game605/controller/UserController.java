@@ -32,7 +32,7 @@ public class UserController {
     }
 
     // 获取自身信息：token非法返回错误提示
-    @RequestMapping("/getSelfInfo")
+    @GetMapping("/getSelfInfo")
     public ResponseResult getSelfInfo(@RequestParam String token) {
         try {
             Long l_token = Long.valueOf(token);
@@ -44,25 +44,22 @@ public class UserController {
     }
 
     // 判断 token 是否有效，返回 userId 或 -1
-    @RequestMapping("/isLogin")
+    @GetMapping("/isLogin")
     public ResponseResult isLogin(@RequestParam Long token) {
         int userId = ts.checkTokenAndGetUserId(token);
         return ResponseResult.success(userId);
     }
 
     // 刷新 token 时间
-    @RequestMapping("/refreshTokenTime")
-    public ResponseResult refreshTokenTime(@RequestParam Long token) {
+    @PostMapping("/refreshTokenTime")
+    public ResponseResult refreshTokenTime(@RequestBody Long token) {
         int result = ts.refreshTokenTime(token);
         return ResponseResult.success(result);
     }
 
     // 注册用户
-    @RequestMapping("/register")
-    public ResponseResult register(@RequestParam String password, @RequestParam String name) {
-        User user = new User();
-        user.setName(name);
-        user.setPassword(password);
+    @PostMapping("/register")
+    public ResponseResult register(@RequestBody User user) {
         user.setRoleId(2); // 默认普通用户角色
         int result = us.addUser(user);
         return ResponseResult.success(result);
