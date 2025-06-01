@@ -2,10 +2,10 @@ package game605.controller;
 
 import game605.Application;
 import game605.bean.Tag;
-import game605.bean.web.ResponseResult;
+import game605.common.web.ResponseResult;
 import game605.service.impl.ImgInfoService;
 import game605.service.impl.TagService;
-import game605.util.ImgUtil;
+import game605.common.util.ImgUtil;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

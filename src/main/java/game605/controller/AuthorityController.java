@@ -2,7 +2,7 @@ package game605.controller;
 
 import game605.bean.Auth;
 import game605.bean.RoleAuthority;
-import game605.bean.web.ResponseResult;
+import game605.common.web.ResponseResult;
 import game605.service.impl.AuthorityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

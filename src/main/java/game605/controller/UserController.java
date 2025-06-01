@@ -1,7 +1,7 @@
 package game605.controller;
 
 import game605.bean.User;
-import game605.bean.web.ResponseResult;
+import game605.common.web.ResponseResult;
 import game605.service.impl.TokenService;
 import game605.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

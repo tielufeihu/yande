@@ -3,7 +3,7 @@ package game605.controller;
 import game605.bean.Imginfo;
 import game605.bean.Tag;
 import game605.bean.vo.ImgSearchVO;
-import game605.bean.web.ResponseResult;
+import game605.common.web.ResponseResult;
 import game605.service.IImgTagService;
 import game605.service.impl.ImgInfoService;
 import game605.service.impl.TagService;

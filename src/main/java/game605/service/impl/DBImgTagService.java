@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import game605.bean.ImgTag;
 import game605.bean.Imginfo;
 import game605.bean.Tag;
-import game605.constants.CommonConstant;
+import game605.common.constants.CommonConstant;
 import game605.mapper.ImgTagMapper;
 import game605.mapper.ImginfoMapper;
 import game605.mapper.TagMapper;

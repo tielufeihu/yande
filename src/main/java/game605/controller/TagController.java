@@ -1,7 +1,7 @@
 package game605.controller;
 
 import game605.bean.Tag;
-import game605.bean.web.ResponseResult;
+import game605.common.web.ResponseResult;
 import game605.service.impl.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;

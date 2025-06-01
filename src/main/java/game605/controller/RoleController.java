@@ -1,7 +1,7 @@
 package game605.controller;
 
 import game605.bean.Role;
-import game605.bean.web.ResponseResult;
+import game605.common.web.ResponseResult;
 import game605.service.impl.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

@@ -1,10 +1,9 @@
 package game605.controller;
 
 import game605.bean.UserCollect;
-import game605.bean.web.ResponseResult;
+import game605.common.web.ResponseResult;
 import game605.service.UserCollectService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 /**

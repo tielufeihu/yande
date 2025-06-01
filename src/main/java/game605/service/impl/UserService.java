@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import game605.Application;
 import game605.bean.User;
 import game605.mapper.UserMapper;
-import game605.redis.RedisService;
+import game605.common.redis.RedisService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

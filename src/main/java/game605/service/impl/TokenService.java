@@ -1,8 +1,8 @@
 package game605.service.impl;
 
-import game605.redis.RedisService;
-import game605.util.ByteUtil;
-import game605.util.SnowflakeIdUtil;
+import game605.common.redis.RedisService;
+import game605.common.util.ByteUtil;
+import game605.common.util.SnowflakeIdUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
