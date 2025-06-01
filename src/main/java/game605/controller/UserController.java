@@ -28,13 +28,15 @@ public class UserController {
         if (token.equals(-1L)) {
             return new ResponseResult(412, "密码错误");
         }
-        return ResponseResult.success(token);
+        return ResponseResult.success("Bearer " + token);
     }
 
     // 获取自身信息：token非法返回错误提示
     @GetMapping("/getSelfInfo")
     public ResponseResult getSelfInfo(@RequestParam String token) {
         try {
+            // 去除Bearer
+            token = token.substring(7);
             Long l_token = Long.valueOf(token);
             User user = us.tokenGetUserInfo(l_token);
             return ResponseResult.success(user);
@@ -45,15 +47,19 @@ public class UserController {
 
     // 判断 token 是否有效，返回 userId 或 -1
     @GetMapping("/isLogin")
-    public ResponseResult isLogin(@RequestParam Long token) {
-        int userId = ts.checkTokenAndGetUserId(token);
+    public ResponseResult isLogin(@RequestParam String token) {
+        token = token.substring(7);
+        Long lToken = Long.valueOf(token);
+        int userId = ts.checkTokenAndGetUserId(lToken);
         return ResponseResult.success(userId);
     }
 
     // 刷新 token 时间
     @PostMapping("/refreshTokenTime")
-    public ResponseResult refreshTokenTime(@RequestBody Long token) {
-        int result = ts.refreshTokenTime(token);
+    public ResponseResult refreshTokenTime(@RequestBody String token) {
+        token = token.substring(7);
+        Long lToken = Long.valueOf(token);
+        int result = ts.refreshTokenTime(lToken);
         return ResponseResult.success(result);
     }
 

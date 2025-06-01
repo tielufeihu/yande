@@ -38,7 +38,8 @@ public class RoleInterceptor implements HandlerInterceptor {
         log.info("request请求地址path[{}] uri[{}]", request.getServletPath(),request.getRequestURI());
         String urlStr = request.getRequestURI();
 
-        String token = request.getHeader("User-Token");
+        String token = request.getHeader("Authorization");
+        token = token.substring(7);
         if(token == null){
             log.info("token 请先登录"+ urlStr);
             response.sendError(412,"请先登录！");

@@ -32,7 +32,7 @@ public class ImgInterceptor implements HandlerInterceptor {
         //response.setHeader("Access-Control-Allow-origin","http://192.168.123.187:8090/");
         response.setHeader("Access-Control-Allow-origin","*");
         response.setHeader ("Access-Control-Allow-Methods","POST，GET，OPTIONS，DELETE，PUT，HEAD");
-        response.setHeader ("Access-Control-Allow-Headers", "content-type,Token,User-Token,Content-Type");
+        response.setHeader ("Access-Control-Allow-Headers", "content-type,Token,Authorization,Content-Type");
         response.setHeader( "Access-control-Max-Age","3600");
 
         if ("OPTIONS".equals(request.getMethod())){
@@ -43,7 +43,8 @@ public class ImgInterceptor implements HandlerInterceptor {
         log.info("request请求地址path[{}] uri[{}]", request.getServletPath(),request.getRequestURI());
         String urlStr = request.getRequestURI();
 
-        String token = request.getHeader("User-Token");
+        String token = request.getHeader("Authorization");
+        token = token.substring(7);
         if(token == null){
             log.info("token 请先登录"+ urlStr);
             response.sendError(412,"请先登录！");
